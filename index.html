@@ -140,7 +140,7 @@
             </div>
 
             <div id="study-arena" style="display: none;">
-                <!-- 현재 학습 중인 주차 및 요일 표시 뱃지 추가 -->
+                <!-- 현재 학습 중인 주차 및 요일 표시 뱃지 -->
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; background:#EEF2FF; padding:10px 16px; border-radius:12px; border:1px solid #C7D2FE;">
                     <div id="currentStudyBadge" style="font-weight: 800; color: var(--primary); font-size: 1.05rem;">📌 1주차 / 월요일 학습 중</div>
                     <button class="btn-small" style="background:#94A3B8;" onclick="returnToStudyHome()">✕ 나가기</button>
@@ -302,7 +302,7 @@
             }
         };
 
-        let curriculumData = JSON.parse(localStorage.getItem('grade4_vocab_data_v5')) || JSON.parse(JSON.stringify(DEFAULT_DATA));
+        let curriculumData = JSON.parse(localStorage.getItem('grade4_vocab_data_v6')) || JSON.parse(JSON.stringify(DEFAULT_DATA));
         let currentActiveWeek = "1주차";
         let currentSelectedStudyDay = "월요일";
         let currentEditingDay = "월요일";
@@ -348,7 +348,7 @@
         function fillDefaultData() {
             if(confirm("모든 주차 데이터를 기본 추천 커리큘럼으로 초기화할까요?")) {
                 curriculumData = JSON.parse(JSON.stringify(DEFAULT_DATA));
-                localStorage.setItem('grade4_vocab_data_v5', JSON.stringify(curriculumData));
+                localStorage.setItem('grade4_vocab_data_v6', JSON.stringify(curriculumData));
                 currentActiveWeek = "1주차";
                 updateHeaderWeekSelect();
                 renderHomeDaySelector();
@@ -501,7 +501,7 @@
                 words[i].example = document.getElementById(`e_${i}`).value.trim();
                 words[i].exampleKo = document.getElementById(`ek_${i}`).value.trim();
             }
-            localStorage.setItem('grade4_vocab_data_v5', JSON.stringify(curriculumData));
+            localStorage.setItem('grade4_vocab_data_v6', JSON.stringify(curriculumData));
             renderHomeDaySelector();
             alert("설정이 안전하게 저장되었습니다!");
         }
@@ -552,12 +552,11 @@
                 }
             });
 
-            // 현재 선택된 주차(currentActiveWeek)에 즉시 반영
             if(!curriculumData[currentActiveWeek]) {
                 curriculumData[currentActiveWeek] = { name: `${currentActiveWeek} 커리큘럼`, days: {} };
             }
             curriculumData[currentActiveWeek].days = daysMap;
-            localStorage.setItem('grade4_vocab_data_v5', JSON.stringify(curriculumData));
+            localStorage.setItem('grade4_vocab_data_v6', JSON.stringify(curriculumData));
             
             renderHomeDaySelector();
             renderDayEditor();
@@ -616,8 +615,8 @@
             document.getElementById('study-home').style.display = 'none';
             document.getElementById('study-arena').style.display = 'block';
             
-            // 학습 화면 상단에 현재 주차 및 요일 뱃지 업데이트
-            document.getElementById('currentStudyBadge.textContent = `📌 ${currentActiveWeek} / ${currentSelectedStudyDay} 학습 중`;
+            // 오류 수정된 뱃지 업데이트 구문
+            document.getElementById('currentStudyBadge').textContent = `📌 ${currentActiveWeek} / ${currentSelectedStudyDay} 학습 중`;
 
             renderStudyStep();
         }
@@ -936,90 +935,12 @@
             return list.sort(() => Math.random() - 0.5);
         }
 
-        function renderQuizQuestion() {
-            if(currentQuizIndex >= quizList.length) {
-                document.getElementById('quiz-arena').style.display = 'none';
-                document.getElementById('story-arena').style.display = 'block';
-                generateAdventureStory();
-                return;
-            }
-
-            let q = quizList[currentQuizIndex];
-            let progress = ((currentQuizIndex) / quizList.length) * 100;
-            document.getElementById('quizProgressBar').style.width = `${progress}%`;
-            document.getElementById('quizHeader').textContent = `📝 퀴즈 진행 (문제 ${currentQuizIndex + 1}/${quizList.length}) — ${q.type === 'multiple' ? '객관식' : '직접 타이핑'}`;
-            
-            let themeLabel = q.themeKey === 'roblox' ? '🔫 로블록스: 라이벌' : q.themeKey === 'zombie' ? '🧟 좀비 아레나에서 살아남기' : '⛏️ 마인크래프트';
-            document.getElementById('quizThemeBadge').textContent = themeLabel;
-            
-            let regex = new RegExp(q.word, 'gi');
-            let masked = q.question.replace(regex, '_____');
-            document.getElementById('quizQuestionText').textContent = `[해석: ${q.translation}]\n빈칸에 들어갈 알맞은 영어 단어는?\n\n"${masked}"`;
-
-            document.getElementById('quizShadowingArea').style.display = 'none';
-            document.getElementById('quizLiveTranscript').textContent = '';
-
-            let optContainer = document.getElementById('quizOptionsContainer');
-            optContainer.innerHTML = '';
-
-            if(q.type === 'multiple') {
-                q.options.forEach(opt => {
-                    let btn = document.createElement('button');
-                    btn.className = 'big-btn';
-                    btn.style.width = '100%';
-                    btn.style.marginBottom = '10px';
-                    btn.style.background = '#4F46E5';
-                    btn.style.fontSize = '1.1rem';
-                    btn.style.padding = '14px';
-                    btn.textContent = opt;
-                    btn.onclick = () => checkQuizAnswer(opt.toLowerCase() === q.word.toLowerCase());
-                    optContainer.appendChild(btn);
-                });
-            } else {
-                let hint = q.word[0] + ' _ '.repeat(q.word.length - 1);
-                optContainer.innerHTML = `
-                    <div style="margin-bottom:14px; font-weight:600; color:var(--text-sub);">💡 힌트: 첫 글자는 '${q.word[0].toUpperCase()}' 이고 총 ${q.word.length}글자예요. (${hint})</div>
-                    <input type="text" id="typingAnswerInput" placeholder="영어 단어를 직접 타이핑하고 엔터를 누르세요" style="padding:14px; font-size:1.15rem; margin-bottom:14px;" onkeydown="if(event.key==='Enter') submitTypingAnswer('${q.word}')">
-                    <button class="action-btn" onclick="submitTypingAnswer('${q.word}')">정답 확인 🚀</button>
-                `;
-            }
-        }
-
-        function checkQuizAnswer(isCorrect) {
-            if(isCorrect) {
-                revealQuizShadowingStep();
-            } else {
-                alert("아쉽네요! 해석과 문맥을 다시 한 번 살펴보고 골라보세요!");
-            }
-        }
-
-        function submitTypingAnswer(correctWord) {
-            let val = document.getElementById('typingAnswerInput').value.trim().toLowerCase();
-            if(val === correctWord.toLowerCase()) {
-                revealQuizShadowingStep();
-            } else {
-                alert(`정답은 '${correctWord}' 입니다! 전체 문장을 듣고 한 번 따라 읽어볼까요?`);
-                revealQuizShadowingStep();
-            }
-        }
-
-        function revealQuizShadowingStep() {
-            let q = quizList[currentQuizIndex];
-            document.getElementById('quizOptionsContainer').innerHTML = `<div style="padding:12px; background:#DCFCE7; color:#166534; border-radius:10px; font-weight:700;">✅ 정답: ${q.word} (${q.meaning})</div>`;
-            document.getElementById('quizFullSentence').textContent = q.question;
-            document.getElementById('quizShadowingArea').style.display = 'block';
-            playQuizSentenceAndRecord();
-        }
-
-        function playQuizSentenceAndRecord() {
-            let q = quizList[currentQuizIndex];
-            let btn = document.getElementById('quizSpeakBtn');
-            btn.textContent = "🔊 AI 튜터가 읽는 중...";
-            playTTS(q.question, 0.72, () => {
-                btn.classList.add('recording');
-                btn.textContent = "🎙️ 따라 읽은 뒤 '다 읽었어요' 클릭!";
-                document.getElementById('quizFinishSpeakBtn').style.display = 'inline-flex';
-                isQuizRecording = true;
-                if(speechRecognition) {
-                    try { speechRecognition.start(); } catch(e) {}
-                }
+<Steps>
+  <Step title="GitHub 저장소에 수정된 코드 적용하기" subtitle="1분 소요">
+    1. 본인의 GitHub 저장소에 접속합니다.
+    2. 기존의 `index.html` 파일을 열고, 우측 상단의 **휴지통 아이콘(Delete file)**을 눌러 삭제합니다.
+    3. 방금 복사한 전체 수정 코드를 메모장에 붙여넣고 이름을 **`index.html`**로 저장합니다.
+    4. 깃허브 저장소에서 **[Add file] -> [Upload files]**를 눌러 새 `index.html` 파일을 올린 뒤 하단의 **[Commit changes]** 버튼을 누릅니다.
+    *Verification:* Vercel이 몇 초 뒤 자동으로 재배포를 마치면, 홈페이지의 버튼들이 정상적으로 클릭되고 작동하는 것을 확인할 수 있습니다.
+  </Step>
+</Steps>
