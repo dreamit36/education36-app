@@ -75,18 +75,44 @@
 
         .stt-status-note { font-size: 0.88rem; color: var(--text-sub); background: #F1F5F9; padding: 6px 14px; border-radius: 8px; max-width: 640px; }
 
-        .coaching-panel { width: 100%; max-width: 680px; background: #FFFBEB; border: 2px solid #F59E0B; border-radius: 14px; padding: 20px; text-align: left; margin-top: 10px; }
-        .coaching-panel h4 { color: #B45309; font-size: 1.05rem; margin-bottom: 8px; }
-        .coaching-panel p { color: #78350F; font-size: 0.98rem; margin-bottom: 14px; }
-        
+        .coaching-panel { width: 100%; max-width: 720px; background: #FFFBEB; border: 2px solid #F59E0B; border-radius: 16px; padding: 22px; text-align: left; margin-top: 10px; }
+        .coaching-panel h4 { color: #B45309; font-size: 1.08rem; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+        .coaching-panel p { color: #78350F; font-size: 0.96rem; margin-bottom: 14px; }
+
+        /* 원어민 발음 일치도 종합 점수 카드 */
+        .eval-summary-card { background: white; border: 1px solid #FDE68A; border-radius: 14px; padding: 16px; margin-bottom: 16px; display: grid; grid-template-columns: 150px 1fr; gap: 18px; align-items: center; }
+        .eval-score-ring { background: linear-gradient(135deg, #EEF2FF, #E0E7FF); border: 3px solid var(--primary); border-radius: 16px; padding: 14px 10px; text-align: center; }
+        .eval-score-ring.tier-high { background: linear-gradient(135deg, #ECFDF5, #D1FAE5); border-color: #10B981; }
+        .eval-score-ring.tier-mid { background: linear-gradient(135deg, #FFFBEB, #FEF3C7); border-color: #F59E0B; }
+        .eval-score-ring.tier-low { background: linear-gradient(135deg, #FEF2F2, #FEE2E2); border-color: #EF4444; }
+        .eval-score-number { font-size: 2.1rem; font-weight: 900; color: var(--text-main); line-height: 1.1; }
+        .eval-score-label { font-size: 0.78rem; font-weight: 800; color: var(--text-sub); margin-top: 4px; }
+        .eval-tier-badge { display: inline-block; margin-top: 6px; padding: 2px 8px; border-radius: 999px; font-size: 0.75rem; font-weight: 800; background: white; color: var(--text-main); border: 1px solid rgba(0,0,0,0.08); }
+
+        .eval-metrics-list { display: flex; flex-direction: column; gap: 10px; }
+        .eval-metric-row { display: flex; flex-direction: column; gap: 4px; }
+        .eval-metric-head { display: flex; justify-content: space-between; font-size: 0.86rem; font-weight: 700; color: #334155; }
+        .eval-metric-bar-bg { height: 8px; background: #E2E8F0; border-radius: 999px; overflow: hidden; }
+        .eval-metric-bar-fill { height: 100%; border-radius: 999px; transition: width 0.4s ease; }
+
+        .sentence-compare-box { background: white; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; font-size: 0.92rem; display: grid; gap: 6px; }
+        .compare-row { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+        .compare-tag { font-size: 0.76rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; white-space: nowrap; }
+        .compare-tag.native { background: #EEF2FF; color: var(--primary); }
+        .compare-tag.mine { background: #F1F5F9; color: #334155; }
+
         .word-breakdown-container { background: white; border: 1px solid #FDE68A; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
-        .word-breakdown-title { font-size: 0.95rem; font-weight: 700; color: #92400E; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-        .word-chips-grid { display: flex; gap: 8px; flex-wrap: wrap; }
-        .word-chip { padding: 8px 14px; border-radius: 10px; font-weight: 700; font-size: 1.02rem; display: flex; flex-direction: column; align-items: center; gap: 2px; border: 1px solid transparent; }
+        .word-breakdown-title { font-size: 0.92rem; font-weight: 700; color: #92400E; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .word-chips-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+        .word-chip { padding: 10px 14px; border-radius: 12px; font-weight: 700; font-size: 1.02rem; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; border: 1.5px solid transparent; min-width: 105px; }
         .word-chip.good { background: #DCFCE7; color: #166534; border-color: #86EFAC; }
         .word-chip.warning { background: #FEF3C7; color: #B45309; border-color: #FCD34D; }
+        .word-chip.miss { background: #FEE2E2; color: #991B1B; border-color: #FCA5A5; }
         .word-chip.neutral { background: #EEF2FF; color: #3730A3; border-color: #C7D2FE; }
-        .word-chip-sub { font-size: 0.72rem; font-weight: 600; opacity: 0.85; }
+        .word-chip-top { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 8px; }
+        .word-chip-score { font-size: 0.78rem; font-weight: 800; padding: 1px 6px; border-radius: 999px; background: rgba(255,255,255,0.75); }
+        .word-chip-sub { font-size: 0.75rem; font-weight: 700; opacity: 0.92; }
+        .word-chip-tip { font-size: 0.72rem; font-weight: 600; opacity: 0.85; line-height: 1.3; }
 
         .retry-box { background: white; border: 1px dashed #F59E0B; border-radius: 10px; padding: 14px; text-align: center; }
 
@@ -137,6 +163,7 @@
             .tab-content { padding: 16px; }
             .theme-grid { grid-template-columns: 1fr; }
             .word-display { font-size: 2rem; }
+            .eval-summary-card { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -202,19 +229,72 @@
                     <div id="sttSupportBanner" class="stt-status-note" style="display: none;"></div>
 
                     <div id="coachingPanel" class="coaching-panel" style="display: none;">
-                        <h4>🎙️ 내 발음 확인 &amp; 단어별 연습 코칭</h4>
+                        <h4>
+                            <span>🎙️ 원어민 발음 일치도 정밀 분석</span>
+                            <span id="evalSpeedBadge" style="font-size:0.82rem; background:#FEF3C7; color:#92400E; padding:3px 10px; border-radius:999px;"></span>
+                        </h4>
+
+                        <div id="evalSummaryCard" class="eval-summary-card" style="display: none;">
+                            <div id="evalScoreRing" class="eval-score-ring">
+                                <div id="evalOverallScore" class="eval-score-number">0%</div>
+                                <div class="eval-score-label">원어민 발음 일치도</div>
+                                <span id="evalTierBadge" class="eval-tier-badge">측정 중</span>
+                            </div>
+                            <div class="eval-metrics-list">
+                                <div class="eval-metric-row">
+                                    <div class="eval-metric-head">
+                                        <span>🎯 단어·음소 정확도</span>
+                                        <span id="metricWordPct">0%</span>
+                                    </div>
+                                    <div class="eval-metric-bar-bg">
+                                        <div id="metricWordBar" class="eval-metric-bar-fill" style="width:0%; background:#4F46E5;"></div>
+                                    </div>
+                                </div>
+                                <div class="eval-metric-row">
+                                    <div class="eval-metric-head">
+                                        <span>🔊 발음 명료도 (원어민 음향 모델)</span>
+                                        <span id="metricClarityPct">0%</span>
+                                    </div>
+                                    <div class="eval-metric-bar-bg">
+                                        <div id="metricClarityBar" class="eval-metric-bar-fill" style="width:0%; background:#10B981;"></div>
+                                    </div>
+                                </div>
+                                <div class="eval-metric-row">
+                                    <div class="eval-metric-head">
+                                        <span>⚡ 말하기 속도·유창성</span>
+                                        <span id="metricFluencyPct">0%</span>
+                                    </div>
+                                    <div class="eval-metric-bar-bg">
+                                        <div id="metricFluencyBar" class="eval-metric-bar-fill" style="width:0%; background:#F59E0B;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="sentenceCompareBox" class="sentence-compare-box" style="display: none;">
+                            <div class="compare-row">
+                                <span class="compare-tag native">원어민 문장</span>
+                                <span id="compareNativeText" style="font-weight:700; color:#1E293B;"></span>
+                            </div>
+                            <div class="compare-row">
+                                <span class="compare-tag mine">내 발음 인식</span>
+                                <span id="compareMyText" style="font-weight:700; color:#4F46E5;"></span>
+                            </div>
+                        </div>
+
                         <p id="coachingMessage"></p>
                         
                         <div class="word-breakdown-container">
-                            <div class="word-breakdown-title">🔍 문장 속 단어별 확인 (초록: 인식 성공, 주황: 다시 연습 추천)</div>
+                            <div class="word-breakdown-title">🔍 단어별 원어민 일치도 &amp; 발음 교정 포인트</div>
                             <div id="wordChipsGrid" class="word-chips-grid"></div>
                         </div>
 
                         <div class="btn-row" style="margin-bottom: 14px;">
                             <button type="button" class="btn-small" style="background:#475569;" onclick="playReferenceExample()">🔊 원어민 표준 예문 다시 듣기</button>
+                            <button type="button" id="playMyVoiceBtn" class="btn-small" style="background:#0EA5E9; display:none;" onclick="playMyRecordedVoice()">🎙️ 방금 녹음한 내 발음 듣기</button>
                         </div>
                         <div class="retry-box">
-                            <div style="font-weight:700; color:#1E293B; margin-bottom:10px;">🎯 한 번 더 듣고 따라하기</div>
+                            <div style="font-weight:700; color:#1E293B; margin-bottom:10px;">🎯 부족한 단어를 신경 써서 한 번 더 도전하기</div>
                             <div class="btn-row">
                                 <button type="button" id="retryListenFollowBtn" class="action-btn secondary" onclick="startRetryShadowing()">🔊 듣고 신경 써서 따라 읽기</button>
                                 <button type="button" id="retryStopBtn" class="action-btn stop-btn" style="display:none;" onclick="stopRetryShadowing()">다 읽었어요 ⏹</button>
@@ -363,21 +443,11 @@
         };
 
         function safeGetStorage(key) {
-            try {
-                return localStorage.getItem(key);
-            } catch (e) {
-                return null;
-            }
+            try { return localStorage.getItem(key); } catch (e) { return null; }
         }
 
         function safeSetStorage(key, value) {
-            try {
-                localStorage.setItem(key, value);
-                return true;
-            } catch (e) {
-                console.warn("Storage unavailable:", e);
-                return false;
-            }
+            try { localStorage.setItem(key, value); return true; } catch (e) { return false; }
         }
 
         function showToast(message, type = 'info') {
@@ -387,9 +457,7 @@
             toast.className = `toast ${type}`;
             toast.textContent = message;
             container.appendChild(toast);
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
+            setTimeout(() => { toast.remove(); }, 3000);
         }
 
         let confirmCallback = null;
@@ -401,9 +469,7 @@
 
         function closeConfirmModal(accepted) {
             document.getElementById('confirmModal').style.display = 'none';
-            if (accepted && typeof confirmCallback === 'function') {
-                confirmCallback();
-            }
+            if (accepted && typeof confirmCallback === 'function') confirmCallback();
             confirmCallback = null;
         }
 
@@ -412,13 +478,9 @@
                 const raw = safeGetStorage(STORAGE_KEY);
                 if (raw) {
                     const parsed = JSON.parse(raw);
-                    if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) {
-                        return parsed;
-                    }
+                    if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) return parsed;
                 }
-            } catch (e) {
-                console.error("Data load fallback:", e);
-            }
+            } catch (e) {}
             return JSON.parse(JSON.stringify(DEFAULT_DATA));
         }
 
@@ -439,10 +501,22 @@
         let isRetryRecording = false;
         let isQuizRecording = false;
         let recordingStartedAt = 0;
+        let firstSpeechAt = 0;
+        let lastSpeechAt = 0;
         let silenceTimer = null;
         let ttsFallbackTimer = null;
+
         let lastSpokenTranscript = "";
-        let lastAccuracyPct = null;
+        let lastConfidenceList = [];
+        let lastAlternatives = [];
+        let lastOverallScore = null;
+
+        // 내 목소리 녹음(MediaRecorder) 상태
+        let mediaRecorder = null;
+        let mediaStream = null;
+        let recordedChunks = [];
+        let lastRecordedAudioUrl = null;
+        let playbackAudio = null;
 
         function switchTab(tabId) {
             document.getElementById('navStudyBtn').classList.remove('active');
@@ -490,13 +564,9 @@
 
         function updateLocationBadges() {
             const homeBadge = document.getElementById('homeLocationBadge');
-            if (homeBadge) {
-                homeBadge.textContent = `📅 현재 선택: ${currentActiveWeek} · ${currentSelectedStudyDay}`;
-            }
+            if (homeBadge) homeBadge.textContent = `📅 현재 선택: ${currentActiveWeek} · ${currentSelectedStudyDay}`;
             const studyBadge = document.getElementById('currentStudyBadge');
-            if (studyBadge) {
-                studyBadge.textContent = `📌 ${currentActiveWeek} · ${currentSelectedStudyDay} 학습 중`;
-            }
+            if (studyBadge) studyBadge.textContent = `📌 ${currentActiveWeek} · ${currentSelectedStudyDay} 학습 중`;
             const quizBadge = document.getElementById('currentQuizBadge');
             if (quizBadge) {
                 quizBadge.textContent = currentMode === 'review'
@@ -817,20 +887,37 @@
                 speechRecognition.lang = 'en-US';
                 speechRecognition.continuous = true;
                 speechRecognition.interimResults = true;
+                speechRecognition.maxAlternatives = 3;
 
                 speechRecognition.onresult = function(event) {
                     let interimTranscript = '';
                     let finalTranscript = '';
-                    for (let i = event.resultIndex; i < event.results.length; ++i) {
-                        if (event.results[i].isFinal) {
-                            finalTranscript += event.results[i][0].transcript;
+                    let confidences = [];
+                    let alts = [];
+
+                    for (let i = 0; i < event.results.length; ++i) {
+                        const res = event.results[i];
+                        if (res.isFinal) {
+                            finalTranscript += ' ' + res[0].transcript;
+                            if (typeof res[0].confidence === 'number' && res[0].confidence > 0) {
+                                confidences.push(res[0].confidence);
+                            }
+                            for (let a = 1; a < res.length; a++) {
+                                if (res[a] && res[a].transcript) alts.push(res[a].transcript.trim());
+                            }
                         } else {
-                            interimTranscript += event.results[i][0].transcript;
+                            interimTranscript += ' ' + res[0].transcript;
                         }
                     }
+
                     let spoken = (finalTranscript || interimTranscript).trim();
                     if (spoken) {
+                        if (!firstSpeechAt) firstSpeechAt = Date.now();
+                        lastSpeechAt = Date.now();
                         lastSpokenTranscript = spoken;
+                        if (confidences.length > 0) lastConfidenceList = confidences;
+                        if (alts.length > 0) lastAlternatives = alts;
+
                         if (isQuizRecording) {
                             document.getElementById('quizLiveTranscript').textContent = `인식된 음성: "${spoken}"`;
                         } else {
@@ -861,9 +948,7 @@
 
                 speechRecognition.onend = function() {
                     const elapsed = Date.now() - recordingStartedAt;
-                    if (elapsed < 700) {
-                        return;
-                    }
+                    if (elapsed < 700) return;
                     if (isRecording) stopRecordingProcess();
                     if (isRetryRecording) stopRetryShadowing();
                     if (isQuizRecording) finishQuizShadowing();
@@ -872,6 +957,69 @@
                 sttSupported = false;
                 console.warn("SpeechRecognition unavailable:", e);
             }
+        }
+
+        // 선택적 오디오 녹음(내 발음 다시 듣기용) - 실패해도 STT를 방해하지 않음
+        function startOptionalAudioCapture() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof MediaRecorder === 'undefined') {
+                return;
+            }
+            if (lastRecordedAudioUrl) {
+                try { URL.revokeObjectURL(lastRecordedAudioUrl); } catch (e) {}
+                lastRecordedAudioUrl = null;
+            }
+            recordedChunks = [];
+            navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+                if (!isRecording && !isRetryRecording) {
+                    stream.getTracks().forEach(t => t.stop());
+                    return;
+                }
+                mediaStream = stream;
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.ondataavailable = (e) => {
+                    if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+                };
+                mediaRecorder.onstop = () => {
+                    if (recordedChunks.length > 0) {
+                        const blob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+                        lastRecordedAudioUrl = URL.createObjectURL(blob);
+                        const playBtn = document.getElementById('playMyVoiceBtn');
+                        if (playBtn) playBtn.style.display = 'inline-flex';
+                    }
+                    if (mediaStream) {
+                        mediaStream.getTracks().forEach(t => t.stop());
+                        mediaStream = null;
+                    }
+                };
+                mediaRecorder.start();
+            }).catch(() => {
+                // 마이크 권한 거부 또는 동시 캡처 미지원 시 조용히 무시
+            });
+        }
+
+        function stopOptionalAudioCapture() {
+            try {
+                if (mediaRecorder && mediaRecorder.state === 'recording') {
+                    mediaRecorder.stop();
+                } else if (mediaStream) {
+                    mediaStream.getTracks().forEach(t => t.stop());
+                    mediaStream = null;
+                }
+            } catch (e) {}
+        }
+
+        function playMyRecordedVoice() {
+            if (!lastRecordedAudioUrl) {
+                showToast("녹음된 음성이 없습니다.", "info");
+                return;
+            }
+            if (playbackAudio) {
+                playbackAudio.pause();
+            }
+            playbackAudio = new Audio(lastRecordedAudioUrl);
+            playbackAudio.play().catch(() => {
+                showToast("내 목소리를 재생할 수 없습니다.", "error");
+            });
         }
 
         function resetSilenceTimer() {
@@ -900,23 +1048,15 @@
         }
 
         function cancelAllAudioAndTimers() {
-            if (ttsFallbackTimer) {
-                clearTimeout(ttsFallbackTimer);
-                ttsFallbackTimer = null;
-            }
-            if (silenceTimer) {
-                clearTimeout(silenceTimer);
-                silenceTimer = null;
-            }
-            if (window.speechSynthesis) {
-                try { window.speechSynthesis.cancel(); } catch (e) {}
-            }
+            if (ttsFallbackTimer) { clearTimeout(ttsFallbackTimer); ttsFallbackTimer = null; }
+            if (silenceTimer) { clearTimeout(silenceTimer); silenceTimer = null; }
+            if (window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) {} }
+            if (playbackAudio) { try { playbackAudio.pause(); } catch (e) {} }
             isRecording = false;
             isRetryRecording = false;
             isQuizRecording = false;
-            if (speechRecognition) {
-                try { speechRecognition.stop(); } catch (e) {}
-            }
+            stopOptionalAudioCapture();
+            if (speechRecognition) { try { speechRecognition.stop(); } catch (e) {} }
         }
 
         function returnToStudyHome() {
@@ -984,7 +1124,7 @@
                 actionBtn.textContent = "🔊 예문 음성 듣기";
             } else if (currentStep === 5) {
                 exContainer.style.display = 'block';
-                headerText.textContent = `STEP 3. 내 발음 확인 & 단어별 연습 코칭`;
+                headerText.textContent = `STEP 3. 원어민 발음 일치도 분석 & 코칭`;
                 document.getElementById('normalStudyControls').style.display = 'none';
                 showCoachingPanel(wordObj);
             }
@@ -1012,10 +1152,7 @@
         }
 
         function playTTS(text, rate, callback) {
-            if (ttsFallbackTimer) {
-                clearTimeout(ttsFallbackTimer);
-                ttsFallbackTimer = null;
-            }
+            if (ttsFallbackTimer) { clearTimeout(ttsFallbackTimer); ttsFallbackTimer = null; }
             if (!window.speechSynthesis) {
                 if (callback) callback();
                 return;
@@ -1025,19 +1162,14 @@
             const done = () => {
                 if (finished) return;
                 finished = true;
-                if (ttsFallbackTimer) {
-                    clearTimeout(ttsFallbackTimer);
-                    ttsFallbackTimer = null;
-                }
+                if (ttsFallbackTimer) { clearTimeout(ttsFallbackTimer); ttsFallbackTimer = null; }
                 if (callback) callback();
             };
 
             const estimatedMs = Math.min(6000, Math.max(1800, text.length * 95));
             ttsFallbackTimer = setTimeout(done, estimatedMs);
 
-            try {
-                window.speechSynthesis.cancel();
-            } catch (e) {}
+            try { window.speechSynthesis.cancel(); } catch (e) {}
 
             setTimeout(() => {
                 try {
@@ -1060,6 +1192,14 @@
             }, 60);
         }
 
+        function resetRecognitionBuffers() {
+            lastSpokenTranscript = "";
+            lastConfidenceList = [];
+            lastAlternatives = [];
+            firstSpeechAt = 0;
+            lastSpeechAt = 0;
+        }
+
         function startVoiceRecording() {
             let btn = document.getElementById('mainActionBtn');
             btn.classList.add('recording');
@@ -1067,7 +1207,11 @@
             document.getElementById('finishSpeakBtn').style.display = 'inline-flex';
             isRecording = true;
             recordingStartedAt = Date.now();
-            lastSpokenTranscript = "";
+            resetRecognitionBuffers();
+
+            if (currentStep === 4) {
+                startOptionalAudioCapture();
+            }
 
             if (speechRecognition && sttSupported) {
                 document.getElementById('liveTranscript').textContent = "마이크에 대고 천천히 또렷하게 읽어주세요...";
@@ -1086,6 +1230,7 @@
             if (!isRecording) return;
             isRecording = false;
             if (silenceTimer) clearTimeout(silenceTimer);
+            stopOptionalAudioCapture();
 
             if (speechRecognition) {
                 try { speechRecognition.stop(); } catch (e) {}
@@ -1098,9 +1243,10 @@
             setTimeout(() => {
                 currentStep++;
                 renderStudyStep();
-            }, 350);
+            }, 400);
         }
 
+        // --- 원어민 발음 일치도 정밀 평가 엔진 ---
         function normalizeWordTokens(str) {
             return (str || "")
                 .toLowerCase()
@@ -1109,20 +1255,293 @@
                 .filter(Boolean);
         }
 
+        function levenshtein(a, b) {
+            const m = a.length, n = b.length;
+            if (m === 0) return n;
+            if (n === 0) return m;
+            const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+            for (let i = 0; i <= m; i++) dp[i][0] = i;
+            for (let j = 0; j <= n; j++) dp[0][j] = j;
+            for (let i = 1; i <= m; i++) {
+                for (let j = 1; j <= n; j++) {
+                    const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+                    dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+                }
+            }
+            return dp[m][n];
+        }
+
+        function phoneticKey(word) {
+            let w = word.toLowerCase().replace(/[^a-z]/g, '');
+            if (!w) return '';
+            w = w
+                .replace(/ph/g, 'f')
+                .replace(/ck/g, 'k')
+                .replace(/qu/g, 'kw')
+                .replace(/th/g, 't')
+                .replace(/sh/g, 's')
+                .replace(/ch/g, 'c')
+                .replace(/v/g, 'f')
+                .replace(/z/g, 's')
+                .replace(/p/g, 'b')
+                .replace(/([a-z])\1+/g, '$1');
+            if (w.length > 2 && w.endsWith('e')) w = w.slice(0, -1);
+            return w;
+        }
+
+        function getWordSimilarityScore(targetClean, spokenClean) {
+            if (!targetClean || !spokenClean) return 0;
+            if (targetClean === spokenClean) return 100;
+
+            const maxLen = Math.max(targetClean.length, spokenClean.length);
+            const charSim = Math.max(0, 1 - levenshtein(targetClean, spokenClean) / maxLen);
+
+            const pk1 = phoneticKey(targetClean);
+            const pk2 = phoneticKey(spokenClean);
+            const pkMax = Math.max(pk1.length, pk2.length, 1);
+            const phonSim = Math.max(0, 1 - levenshtein(pk1, pk2) / pkMax);
+
+            const combined = Math.round((charSim * 0.55 + phonSim * 0.45) * 100);
+            return Math.min(95, combined);
+        }
+
+        function getPronunciationTip(targetWord, matchedSpoken) {
+            const w = targetWord.toLowerCase();
+            if (matchedSpoken && matchedSpoken === w) return "원어민 발음과 정확히 일치해요";
+            if (matchedSpoken && (matchedSpoken + 's' === w || w + 's' === matchedSpoken)) {
+                return "단어 끝 -s 소리를 빼먹지 않게 주의해요";
+            }
+            if (matchedSpoken && (matchedSpoken + 'ed' === w || matchedSpoken + 'd' === w)) {
+                return "과거형 끝소리 -d/-ed를 또렷하게 발음해요";
+            }
+            if (w.includes('v') || w.includes('f')) {
+                return "아랫입술을 윗니에 살짝 대고 소리 내보세요";
+            }
+            if (w.includes('th')) {
+                return "혀끝을 윗니·아랫니 사이에 살짝 물고 발음해요";
+            }
+            if (w.includes('r') || w.includes('l')) {
+                return "r은 혀가 닿지 않게, l은 혀끝을 입천장에 대요";
+            }
+            if (/[tdkp]$/.test(w)) {
+                return `끝 자음(-${w.slice(-1)})을 흐리지 말고 끝까지 내세요`;
+            }
+            return "모음 강세를 살려 천천히 또렷하게 읽어보세요";
+        }
+
+        function evaluatePronunciation(exampleText, spokenText, confidenceList, alternatives, durationMs) {
+            const rawWords = exampleText.trim().split(/\s+/).filter(Boolean);
+            const spokenWords = normalizeWordTokens(spokenText);
+            const altTokens = normalizeWordTokens((alternatives || []).join(' '));
+            const hasSpoken = spokenWords.length > 0;
+
+            if (!hasSpoken) {
+                return {
+                    hasSpoken: false,
+                    overallScore: null,
+                    wordAccuracyPct: 0,
+                    clarityPct: 0,
+                    fluencyPct: 0,
+                    speedLabel: "직접 읽기 완료",
+                    wordResults: rawWords.map(w => ({
+                        raw: w,
+                        score: null,
+                        status: 'neutral',
+                        heard: null,
+                        tip: getPronunciationTip(w.replace(/[^a-zA-Z']/g, ''), null)
+                    }))
+                };
+            }
+
+            // 음향 모델 신뢰도 계산 (브라우저가 0을 줄 경우 대체 계산)
+            let avgConfidence = null;
+            if (confidenceList && confidenceList.length > 0) {
+                avgConfidence = Math.round((confidenceList.reduce((a, b) => a + b, 0) / confidenceList.length) * 100);
+            }
+
+            // 순서 기반 최적 단어 매칭
+            let usedIndices = new Set();
+            let wordResults = [];
+            let scoreSum = 0;
+
+            rawWords.forEach((rawW, targetIdx) => {
+                const cleanTarget = rawW.toLowerCase().replace(/[^a-z0-9']/g, '');
+                let bestScore = 0;
+                let bestIdx = -1;
+                let bestToken = null;
+
+                // 순서 근접성을 반영해 가장 잘 맞는 발화 단어 찾기
+                spokenWords.forEach((spToken, sIdx) => {
+                    if (usedIndices.has(sIdx)) return;
+                    let sim = getWordSimilarityScore(cleanTarget, spToken);
+                    const orderDist = Math.abs(targetIdx - sIdx);
+                    const orderBonus = orderDist === 0 ? 3 : (orderDist === 1 ? 1 : 0);
+                    const adjusted = Math.min(100, sim + (sim >= 60 ? orderBonus : 0));
+                    if (adjusted > bestScore) {
+                        bestScore = adjusted;
+                        bestIdx = sIdx;
+                        bestToken = spToken;
+                    }
+                });
+
+                // 대안 후보(alternatives)에서 정확히 일치한 경우도 부분 인정
+                if (bestScore < 90 && altTokens.includes(cleanTarget)) {
+                    bestScore = Math.max(bestScore, 84);
+                    if (!bestToken) bestToken = cleanTarget;
+                }
+
+                if (bestIdx >= 0 && bestScore >= 45) {
+                    usedIndices.add(bestIdx);
+                } else {
+                    bestToken = null;
+                    bestScore = 0;
+                }
+
+                // 음향 신뢰도 가중치 반영 (정확히 일치했더라도 웅얼거려 confidence가 낮으면 감점)
+                let finalWordScore = bestScore;
+                if (bestScore === 100 && avgConfidence !== null) {
+                    finalWordScore = Math.round(bestScore * 0.65 + avgConfidence * 0.35);
+                }
+
+                let status = 'miss';
+                if (finalWordScore >= 85) status = 'good';
+                else if (finalWordScore >= 55) status = 'warning';
+
+                scoreSum += finalWordScore;
+                wordResults.push({
+                    raw: rawW,
+                    clean: cleanTarget,
+                    score: finalWordScore,
+                    status,
+                    heard: bestToken,
+                    tip: getPronunciationTip(cleanTarget, bestToken)
+                });
+            });
+
+            const wordAccuracyPct = rawWords.length > 0 ? Math.round(scoreSum / rawWords.length) : 0;
+            const clarityPct = avgConfidence !== null
+                ? avgConfidence
+                : Math.min(98, Math.max(40, Math.round(wordAccuracyPct * 0.95)));
+
+            // 속도/유창성 평가 (단어당 0.45초 ~ 1.1초를 원어민/초4 기준 적정 속도로 간주)
+            let fluencyPct = 85;
+            let speedLabel = "적당한 속도예요 👍";
+            if (durationMs > 0) {
+                const sec = durationMs / 1000;
+                const idealMin = Math.max(1.0, rawWords.length * 0.38);
+                const idealMax = Math.max(2.5, rawWords.length * 1.15);
+                if (sec < idealMin) {
+                    fluencyPct = Math.max(60, Math.round(90 - (idealMin - sec) * 20));
+                    speedLabel = "조금 빨라요 ⚡ 천천히 또렷하게!";
+                } else if (sec > idealMax) {
+                    fluencyPct = Math.max(60, Math.round(90 - (sec - idealMax) * 10));
+                    speedLabel = "조금 천천히 읽었어요 🐢";
+                } else {
+                    fluencyPct = 95;
+                    speedLabel = "원어민과 딱 좋은 리듬이에요 🌟";
+                }
+            }
+            if (wordAccuracyPct < 40) {
+                fluencyPct = Math.min(fluencyPct, wordAccuracyPct + 25);
+            }
+
+            const overallScore = Math.round(wordAccuracyPct * 0.55 + clarityPct * 0.30 + fluencyPct * 0.15);
+
+            return {
+                hasSpoken: true,
+                overallScore,
+                wordAccuracyPct,
+                clarityPct,
+                fluencyPct,
+                speedLabel,
+                wordResults
+            };
+        }
+
+        function renderEvaluationReport(wordObj, evalRes) {
+            const summaryCard = document.getElementById('evalSummaryCard');
+            const compareBox = document.getElementById('sentenceCompareBox');
+            const speedBadge = document.getElementById('evalSpeedBadge');
+            const scoreRing = document.getElementById('evalScoreRing');
+            const tierBadge = document.getElementById('evalTierBadge');
+            const grid = document.getElementById('wordChipsGrid');
+
+            grid.innerHTML = '';
+            speedBadge.textContent = evalRes.speedLabel;
+
+            if (!evalRes.hasSpoken) {
+                summaryCard.style.display = 'none';
+                compareBox.style.display = 'none';
+                document.getElementById('coachingMessage').innerHTML =
+                    `직접 소리 내어 읽기 연습을 완료했어요! 음성 인식이 기록되지 않아 점수를 매기진 못했지만, 아래 핵심 단어 <b>'${escapeHtml(wordObj.word)}'</b>를 원어민과 비교하며 한 번 더 읽어보세요.`;
+            } else {
+                summaryCard.style.display = 'grid';
+                compareBox.style.display = 'grid';
+                document.getElementById('compareNativeText').textContent = wordObj.example || wordObj.word;
+                document.getElementById('compareMyText').textContent = `"${lastSpokenTranscript}"`;
+
+                const s = evalRes.overallScore;
+                document.getElementById('evalOverallScore').textContent = `${s}%`;
+                scoreRing.className = 'eval-score-ring ' + (s >= 85 ? 'tier-high' : s >= 60 ? 'tier-mid' : 'tier-low');
+                tierBadge.textContent = s >= 90 ? '🏆 원어민 수준!' : s >= 75 ? '🌟 아주 잘했어요' : s >= 55 ? '💪 조금만 더!' : '🌱 다시 도전!';
+
+                document.getElementById('metricWordPct').textContent = `${evalRes.wordAccuracyPct}%`;
+                document.getElementById('metricWordBar').style.width = `${evalRes.wordAccuracyPct}%`;
+                document.getElementById('metricClarityPct').textContent = `${evalRes.clarityPct}%`;
+                document.getElementById('metricClarityBar').style.width = `${evalRes.clarityPct}%`;
+                document.getElementById('metricFluencyPct').textContent = `${evalRes.fluencyPct}%`;
+                document.getElementById('metricFluencyBar').style.width = `${evalRes.fluencyPct}%`;
+
+                const weakWords = evalRes.wordResults.filter(r => r.status !== 'good').map(r => r.raw);
+                if (weakWords.length === 0) {
+                    document.getElementById('coachingMessage').innerHTML =
+                        `대단해요! 문장의 모든 단어를 원어민 발음과 <b>${s}%</b> 일치도로 정확하고 또렷하게 읽었어요!`;
+                } else {
+                    document.getElementById('coachingMessage').innerHTML =
+                        `원어민 발음 일치도 <b>${s}%</b>! 특히 <b>${escapeHtml(weakWords.join(', '))}</b> 부분을 아래 교정 팁에 맞춰 한 번 더 신경 써서 읽어보면 95% 이상도 거뜬해요.`;
+                }
+            }
+
+            evalRes.wordResults.forEach(r => {
+                const chip = document.createElement('div');
+                chip.className = `word-chip ${r.status}`;
+
+                if (!evalRes.hasSpoken) {
+                    chip.innerHTML = `
+                        <div class="word-chip-top"><span>${escapeHtml(r.raw)}</span></div>
+                        <span class="word-chip-tip">${escapeHtml(r.tip)}</span>
+                    `;
+                } else {
+                    const heardLabel = r.heard
+                        ? (r.heard === r.clean ? '정확히 일치' : `들린 소리: "${r.heard}"`)
+                        : '인식되지 않음';
+                    chip.innerHTML = `
+                        <div class="word-chip-top">
+                            <span>${escapeHtml(r.raw)}</span>
+                            <span class="word-chip-score">${r.score}%</span>
+                        </div>
+                        <span class="word-chip-sub">${escapeHtml(heardLabel)}</span>
+                        <span class="word-chip-tip">${escapeHtml(r.tip)}</span>
+                    `;
+                }
+                grid.appendChild(chip);
+            });
+        }
+
         function showCoachingPanel(wordObj) {
             const panel = document.getElementById('coachingPanel');
             panel.style.display = 'block';
-            const exampleText = wordObj.example || wordObj.word;
-            const breakdown = renderWordBreakdownChips(exampleText, lastSpokenTranscript);
 
-            if (lastSpokenTranscript) {
-                lastAccuracyPct = breakdown.accuracy;
-                document.getElementById('coachingMessage').innerHTML =
-                    `인식된 발음: "<b>${escapeHtml(lastSpokenTranscript)}</b>" · 단어 일치율 <b>${breakdown.accuracy}%</b>! 핵심 단어 <b>'${escapeHtml(wordObj.word)}'</b>의 강세를 살려 한 번 더 따라 읽어볼까요?`;
-            } else {
-                lastAccuracyPct = null;
-                document.getElementById('coachingMessage').innerHTML =
-                    `직접 소리 내어 읽기 연습을 완료했어요! 핵심 단어 <b>'${escapeHtml(wordObj.word)}'</b>를 원어민 속도에 맞춰 한 번 더 또렷하게 따라 읽어보세요.`;
+            const exampleText = wordObj.example || wordObj.word;
+            const durationMs = (firstSpeechAt && lastSpeechAt) ? Math.max(500, lastSpeechAt - firstSpeechAt) : (Date.now() - recordingStartedAt);
+            const evalRes = evaluatePronunciation(exampleText, lastSpokenTranscript, lastConfidenceList, lastAlternatives, durationMs);
+            lastOverallScore = evalRes.overallScore;
+
+            renderEvaluationReport(wordObj, evalRes);
+
+            const playMyBtn = document.getElementById('playMyVoiceBtn');
+            if (playMyBtn) {
+                playMyBtn.style.display = lastRecordedAudioUrl ? 'inline-flex' : 'none';
             }
 
             document.getElementById('retryResultBadge').textContent = '';
@@ -1131,36 +1550,6 @@
             document.getElementById('retryListenFollowBtn').textContent = "🔊 듣고 신경 써서 따라 읽기";
             document.getElementById('retryListenFollowBtn').classList.remove('recording');
             document.getElementById('retryStopBtn').style.display = 'none';
-        }
-
-        function renderWordBreakdownChips(exampleText, spokenText) {
-            const grid = document.getElementById('wordChipsGrid');
-            grid.innerHTML = '';
-            let rawWords = exampleText.trim().split(/\s+/).filter(Boolean);
-            let spokenWords = normalizeWordTokens(spokenText);
-            let hasSpoken = spokenWords.length > 0;
-            let matchedCount = 0;
-
-            rawWords.forEach((w) => {
-                let chip = document.createElement('div');
-                let cleanToken = w.toLowerCase().replace(/[^a-z0-9']/g, "");
-                if (!hasSpoken) {
-                    chip.className = 'word-chip neutral';
-                    chip.innerHTML = `<span>${escapeHtml(w)}</span><span class="word-chip-sub">연습 단어</span>`;
-                } else {
-                    let isMatched = spokenWords.includes(cleanToken);
-                    if (isMatched) matchedCount++;
-                    chip.className = `word-chip ${isMatched ? 'good' : 'warning'}`;
-                    chip.innerHTML = `
-                        <span>${escapeHtml(w)}</span>
-                        <span class="word-chip-sub">${isMatched ? '✨ 인식 성공' : '⚠️ 다시 연습'}</span>
-                    `;
-                }
-                grid.appendChild(chip);
-            });
-
-            let accuracy = rawWords.length > 0 ? Math.round((matchedCount / rawWords.length) * 100) : 100;
-            return { accuracy, hasSpoken };
         }
 
         function playReferenceExample() {
@@ -1183,7 +1572,8 @@
                 document.getElementById('retryStopBtn').style.display = 'inline-flex';
                 isRetryRecording = true;
                 recordingStartedAt = Date.now();
-                lastSpokenTranscript = "";
+                resetRecognitionBuffers();
+                startOptionalAudioCapture();
 
                 if (speechRecognition && sttSupported) {
                     try { speechRecognition.start(); } catch (e) {}
@@ -1199,6 +1589,7 @@
             if (!isRetryRecording) return;
             isRetryRecording = false;
             if (silenceTimer) clearTimeout(silenceTimer);
+            stopOptionalAudioCapture();
             if (speechRecognition) {
                 try { speechRecognition.stop(); } catch (e) {}
             }
@@ -1210,16 +1601,20 @@
 
             let words = getTodayWords();
             let wordObj = words[currentWordIndex];
-            const breakdown = renderWordBreakdownChips(wordObj.example || wordObj.word, lastSpokenTranscript);
-            const badge = document.getElementById('retryResultBadge');
+            const exampleText = wordObj.example || wordObj.word;
+            const durationMs = (firstSpeechAt && lastSpeechAt) ? Math.max(500, lastSpeechAt - firstSpeechAt) : (Date.now() - recordingStartedAt);
+            const evalRes = evaluatePronunciation(exampleText, lastSpokenTranscript, lastConfidenceList, lastAlternatives, durationMs);
+            renderEvaluationReport(wordObj, evalRes);
 
-            if (breakdown.hasSpoken) {
-                if (lastAccuracyPct !== null && breakdown.accuracy > lastAccuracyPct) {
-                    badge.textContent = `✨ 단어 일치율 ${lastAccuracyPct}% ➔ ${breakdown.accuracy}%! 훨씬 좋아졌어요!`;
+            const badge = document.getElementById('retryResultBadge');
+            if (evalRes.hasSpoken) {
+                if (lastOverallScore !== null && evalRes.overallScore > lastOverallScore) {
+                    const diff = evalRes.overallScore - lastOverallScore;
+                    badge.textContent = `✨ 원어민 발음 일치도 ${lastOverallScore}% ➔ ${evalRes.overallScore}% (+${diff}% 향상!) 정말 잘했어요!`;
                 } else {
-                    badge.textContent = `✨ 단어 일치율 ${breakdown.accuracy}% 달성! 멋지게 따라 읽었어요!`;
+                    badge.textContent = `✨ 원어민 발음 일치도 ${evalRes.overallScore}% 달성! 꾸준히 연습하면 더 자연스러워져요!`;
                 }
-                lastAccuracyPct = breakdown.accuracy;
+                lastOverallScore = evalRes.overallScore;
             } else {
                 badge.textContent = "✨ 한 번 더 따라 읽기 연습 완료! 다음 단어로 이동해볼까요?";
             }
@@ -1310,19 +1705,13 @@
         function generateDistractors(correct, words) {
             let list = [correct];
             let pool = [...words];
-            if (pool.length < 4) {
-                pool = pool.concat(getAllWeekWords());
-            }
-            if (pool.length < 4) {
-                pool = pool.concat(DEFAULT_DATA["1주차"].days["월요일"]);
-            }
+            if (pool.length < 4) pool = pool.concat(getAllWeekWords());
+            if (pool.length < 4) pool = pool.concat(DEFAULT_DATA["1주차"].days["월요일"]);
             let safety = 0;
             while (list.length < 4 && safety < 60) {
                 safety++;
                 let rand = pool[Math.floor(Math.random() * pool.length)].word;
-                if (rand && !list.some(x => x.toLowerCase() === rand.toLowerCase())) {
-                    list.push(rand);
-                }
+                if (rand && !list.some(x => x.toLowerCase() === rand.toLowerCase())) list.push(rand);
             }
             return list.sort(() => Math.random() - 0.5);
         }
@@ -1436,7 +1825,7 @@
                 document.getElementById('quizFinishSpeakBtn').style.display = 'inline-flex';
                 isQuizRecording = true;
                 recordingStartedAt = Date.now();
-                lastSpokenTranscript = "";
+                resetRecognitionBuffers();
 
                 if (speechRecognition && sttSupported) {
                     try { speechRecognition.start(); } catch (e) {}
