@@ -302,7 +302,7 @@
             }
         };
 
-        let curriculumData = JSON.parse(localStorage.getItem('grade4_vocab_data_v6')) || JSON.parse(JSON.stringify(DEFAULT_DATA));
+        let curriculumData = JSON.parse(localStorage.getItem('grade4_vocab_data_v7')) || JSON.parse(JSON.stringify(DEFAULT_DATA));
         let currentActiveWeek = "1주차";
         let currentSelectedStudyDay = "월요일";
         let currentEditingDay = "월요일";
@@ -348,7 +348,7 @@
         function fillDefaultData() {
             if(confirm("모든 주차 데이터를 기본 추천 커리큘럼으로 초기화할까요?")) {
                 curriculumData = JSON.parse(JSON.stringify(DEFAULT_DATA));
-                localStorage.setItem('grade4_vocab_data_v6', JSON.stringify(curriculumData));
+                localStorage.setItem('grade4_vocab_data_v7', JSON.stringify(curriculumData));
                 currentActiveWeek = "1주차";
                 updateHeaderWeekSelect();
                 renderHomeDaySelector();
@@ -501,7 +501,7 @@
                 words[i].example = document.getElementById(`e_${i}`).value.trim();
                 words[i].exampleKo = document.getElementById(`ek_${i}`).value.trim();
             }
-            localStorage.setItem('grade4_vocab_data_v6', JSON.stringify(curriculumData));
+            localStorage.setItem('grade4_vocab_data_v7', JSON.stringify(curriculumData));
             renderHomeDaySelector();
             alert("설정이 안전하게 저장되었습니다!");
         }
@@ -556,7 +556,7 @@
                 curriculumData[currentActiveWeek] = { name: `${currentActiveWeek} 커리큘럼`, days: {} };
             }
             curriculumData[currentActiveWeek].days = daysMap;
-            localStorage.setItem('grade4_vocab_data_v6', JSON.stringify(curriculumData));
+            localStorage.setItem('grade4_vocab_data_v7', JSON.stringify(curriculumData));
             
             renderHomeDaySelector();
             renderDayEditor();
@@ -615,7 +615,7 @@
             document.getElementById('study-home').style.display = 'none';
             document.getElementById('study-arena').style.display = 'block';
             
-            // 오류 수정된 뱃지 업데이트 구문
+            // 학습 뱃지 정상 업데이트
             document.getElementById('currentStudyBadge').textContent = `📌 ${currentActiveWeek} / ${currentSelectedStudyDay} 학습 중`;
 
             renderStudyStep();
@@ -935,12 +935,27 @@
             return list.sort(() => Math.random() - 0.5);
         }
 
-<Steps>
-  <Step title="GitHub 저장소에 수정된 코드 적용하기" subtitle="1분 소요">
-    1. 본인의 GitHub 저장소에 접속합니다.
-    2. 기존의 `index.html` 파일을 열고, 우측 상단의 **휴지통 아이콘(Delete file)**을 눌러 삭제합니다.
-    3. 방금 복사한 전체 수정 코드를 메모장에 붙여넣고 이름을 **`index.html`**로 저장합니다.
-    4. 깃허브 저장소에서 **[Add file] -> [Upload files]**를 눌러 새 `index.html` 파일을 올린 뒤 하단의 **[Commit changes]** 버튼을 누릅니다.
-    *Verification:* Vercel이 몇 초 뒤 자동으로 재배포를 마치면, 홈페이지의 버튼들이 정상적으로 클릭되고 작동하는 것을 확인할 수 있습니다.
-  </Step>
-</Steps>
+        function renderQuizQuestion() {
+            if(currentQuizIndex >= quizList.length) {
+                document.getElementById('quiz-arena').style.display = 'none';
+                document.getElementById('story-arena').style.display = 'block';
+                generateAdventureStory();
+                return;
+            }
+
+            let q = quizList[currentQuizIndex];
+            let progress = ((currentQuizIndex) / quizList.length) * 100;
+            document.getElementById('quizProgressBar').style.width = `${progress}%`;
+            document.getElementById('quizHeader').textContent = `📝 퀴즈 진행 (문제 ${currentQuizIndex + 1}/${quizList.length}) — ${q.type === 'multiple' ? '객관식' : '직접 타이핑'}`;
+            
+            let themeLabel = q.themeKey === 'roblox' ? '🔫 로블록스: 라이벌' : q.themeKey === 'zombie' ? '🧟 좀비 아레나에서 살아남기' : '⛏️ 마인크래프트';
+            document.getElementById('quizThemeBadge').textContent = themeLabel;
+            
+            let regex = new RegExp(q.word, 'gi');
+            let masked = q.question.replace(regex, '_____');
+            document.getElementById('quizQuestionText').textContent = `[해석: ${q.translation}]\n빈칸에 들어갈 알맞은 영어 단어는?\n\n"${masked}"`;
+
+            document.getElementById('quizShadowingArea').style.display = 'none';
+            document.getElementById('quizLiveTranscript').textContent = '';
+
+            let optContainer = document.getElementById('quizOptionsContainer');
