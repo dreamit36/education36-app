@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>초4 영어 단어 마스터 - 게임 세계관 쉐도잉</title>
     <style>
         :root {
@@ -22,7 +23,7 @@
         header { background: linear-gradient(135deg, #4F46E5, #2563EB); color: white; padding: 24px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
         header h1 { font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 10px; }
         .header-controls { display: flex; gap: 12px; align-items: center; }
-        select { padding: 8px 14px; border-radius: 10px; border: none; font-weight: 700; background: white; color: var(--text-main); cursor: pointer; outline: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        select { padding: 8px 14px; border-radius: 10px; border: none; font-weight: 700; background: white; color: var(--text-main); cursor: pointer; outline: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-size: 0.95rem; }
         
         nav { display: flex; background: #EEF2F6; border-bottom: 1px solid #E2E8F0; }
         nav button { flex: 1; padding: 16px; border: none; background: none; font-size: 1rem; font-weight: 700; color: var(--text-sub); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
@@ -32,9 +33,11 @@
         .tab-content { display: none; padding: 30px; min-height: 520px; }
         .tab-content.active { display: block; }
 
-        .mode-select-box { text-align: center; padding: 35px 20px; }
-        .mode-select-box h2 { font-size: 1.8rem; margin-bottom: 12px; color: var(--primary); }
-        .mode-select-box p { color: var(--text-sub); margin-bottom: 24px; font-size: 1.05rem; }
+        .mode-select-box { text-align: center; padding: 30px 20px; }
+        .mode-select-box h2 { font-size: 1.8rem; margin-bottom: 10px; color: var(--primary); }
+        .mode-select-box p { color: var(--text-sub); margin-bottom: 20px; font-size: 1.05rem; }
+
+        .home-status-badge { display: inline-block; background: #EEF2FF; color: var(--primary); border: 1px solid #C7D2FE; padding: 6px 16px; border-radius: 999px; font-weight: 800; font-size: 0.95rem; margin-bottom: 18px; }
 
         .day-selector-row { margin-bottom: 28px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
         .day-pill { padding: 8px 16px; border-radius: 999px; border: 2px solid #CBD5E1; background: white; font-weight: 700; color: var(--text-sub); cursor: pointer; transition: all 0.2s; }
@@ -46,6 +49,9 @@
         .btn-study { background: linear-gradient(135deg, #6366F1, #4F46E5); }
         .btn-quiz { background: linear-gradient(135deg, #F59E0B, #D97706); }
         .btn-review { background: linear-gradient(135deg, #10B981, #059669); }
+
+        .arena-top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: #EEF2FF; padding: 10px 16px; border-radius: 12px; border: 1px solid #C7D2FE; flex-wrap: wrap; gap: 8px; }
+        .arena-location-badge { font-weight: 800; color: var(--primary); font-size: 1.02rem; display: flex; align-items: center; gap: 6px; }
 
         .progress-bar-container { background: #E2E8F0; height: 10px; border-radius: 5px; margin-bottom: 22px; overflow: hidden; }
         .progress-bar { background: var(--primary); height: 100%; width: 0%; transition: width 0.3s ease; }
@@ -102,6 +108,7 @@
         .btn-small { padding: 7px 14px; border-radius: 8px; border: none; background: var(--primary); color: white; font-weight: 600; cursor: pointer; font-size: 0.85rem; }
         .btn-danger { background: var(--danger); }
         .upload-box { border: 2px dashed #CBD5E1; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; background: #F8FAFC; }
+        .upload-status { margin-top: 12px; font-weight: 700; font-size: 0.95rem; color: var(--success); display: none; }
 
         .story-container { max-width: 720px; margin: 0 auto; text-align: left; }
         .story-card { background: white; border: 1px solid #E2E8F0; border-radius: 14px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
@@ -116,34 +123,34 @@
             <h1>🎮 초4 영어 단어 마스터</h1>
             <div class="header-controls">
                 <select id="headerWeekSelect" onchange="changeHeaderWeek(this.value)"></select>
-                <button class="btn-small" style="background:#F59E0B;" onclick="fillDefaultData()">✨ 기본 데이터 복원</button>
+                <button type="button" class="btn-small" style="background:#F59E0B;" onclick="fillDefaultData()">✨ 기본 데이터 복원</button>
             </div>
         </header>
 
         <nav>
-            <button class="active" onclick="switchTab('study')">📚 오늘의 학습</button>
-            <button onclick="switchTab('settings')">⚙️ 부모님 설정</button>
+            <button type="button" id="navStudyBtn" class="active" onclick="switchTab('study')">📚 오늘의 학습</button>
+            <button type="button" id="navSettingsBtn" onclick="switchTab('settings')">⚙️ 부모님 설정</button>
         </nav>
 
         <div id="tab-study" class="tab-content active">
             <div id="study-home" class="mode-select-box">
+                <div id="homeLocationBadge" class="home-status-badge">📅 현재 선택: 1주차 · 월요일</div>
                 <h2 id="todayTitle">오늘의 영어 모험을 시작해요!</h2>
                 <p id="todaySubtitle">매일 5개의 단어를 원어민 발음으로 천천히 듣고 따라 하며 완벽하게 내 것으로 만들어봐요.</p>
 
                 <div class="day-selector-row" id="homeDaySelector"></div>
 
                 <div class="btn-grid">
-                    <button class="big-btn btn-study" onclick="startDailyStudy()">🚀 오늘의 학습 시작</button>
-                    <button class="big-btn btn-quiz" onclick="openThemeModalForDailyQuiz()">📝 오늘의 마무리 퀴즈</button>
-                    <button class="big-btn btn-review" onclick="openThemeModalForReview()">🌟 주간 복습 (토요일)</button>
+                    <button type="button" class="big-btn btn-study" onclick="startDailyStudy()">🚀 오늘의 학습 시작</button>
+                    <button type="button" class="big-btn btn-quiz" onclick="openThemeModalForDailyQuiz()">📝 오늘의 마무리 퀴즈</button>
+                    <button type="button" class="big-btn btn-review" onclick="openThemeModalForReview()">🌟 주간 복습 (토요일)</button>
                 </div>
             </div>
 
             <div id="study-arena" style="display: none;">
-                <!-- 현재 학습 중인 주차 및 요일 표시 뱃지 -->
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; background:#EEF2FF; padding:10px 16px; border-radius:12px; border:1px solid #C7D2FE;">
-                    <div id="currentStudyBadge" style="font-weight: 800; color: var(--primary); font-size: 1.05rem;">📌 1주차 / 월요일 학습 중</div>
-                    <button class="btn-small" style="background:#94A3B8;" onclick="returnToStudyHome()">✕ 나가기</button>
+                <div class="arena-top-bar">
+                    <div id="currentStudyBadge" class="arena-location-badge">📌 1주차 · 월요일 학습 중</div>
+                    <button type="button" class="btn-small" style="background:#64748B;" onclick="returnToStudyHome()">✕ 나가기</button>
                 </div>
 
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -164,8 +171,8 @@
 
                 <div class="action-area">
                     <div class="btn-row" id="normalStudyControls">
-                        <button id="mainActionBtn" class="action-btn" onclick="handleStudyAction()">🔊 원어민 발음 듣기</button>
-                        <button id="finishSpeakBtn" class="action-btn stop-btn" style="display: none;" onclick="stopRecordingProcess()">다 읽었어요 ⏹</button>
+                        <button type="button" id="mainActionBtn" class="action-btn" onclick="handleStudyAction()">🔊 원어민 발음 듣기</button>
+                        <button type="button" id="finishSpeakBtn" class="action-btn stop-btn" style="display: none;" onclick="stopRecordingProcess()">다 읽었어요 ⏹</button>
                     </div>
 
                     <div id="liveTranscript" style="margin-top: 8px; font-size: 1.05rem; font-weight: 600; color: var(--primary); min-height: 28px;"></div>
@@ -180,27 +187,31 @@
                         </div>
 
                         <div class="btn-row" style="margin-bottom: 14px;">
-                            <button class="btn-small" style="background:#475569;" onclick="playReferenceExample()">🔊 원어민 표준 예문 다시 듣기</button>
+                            <button type="button" class="btn-small" style="background:#475569;" onclick="playReferenceExample()">🔊 원어민 표준 예문 다시 듣기</button>
                         </div>
                         <div class="retry-box">
                             <div style="font-weight:700; color:#1E293B; margin-bottom:10px;">🎯 분석 결과를 참고해 한 번 더 듣고 따라하기</div>
                             <div class="btn-row">
-                                <button id="retryListenFollowBtn" class="action-btn secondary" onclick="startRetryShadowing()">🔊 듣고 신경 써서 따라 읽기</button>
-                                <button id="retryStopBtn" class="action-btn stop-btn" style="display:none;" onclick="stopRetryShadowing()">다 읽었어요 ⏹</button>
+                                <button type="button" id="retryListenFollowBtn" class="action-btn secondary" onclick="startRetryShadowing()">🔊 듣고 신경 써서 따라 읽기</button>
+                                <button type="button" id="retryStopBtn" class="action-btn stop-btn" style="display:none;" onclick="stopRetryShadowing()">다 읽었어요 ⏹</button>
                             </div>
                             <div id="retryResultBadge" style="margin-top:10px; font-weight:700; color:var(--success);"></div>
                         </div>
                         <div style="text-align:center; margin-top:16px;">
-                            <button id="nextWordBtn" class="action-btn success-btn" style="display:none;" onclick="goToNextWord()">다음 단어로 이동 ➔</button>
+                            <button type="button" id="nextWordBtn" class="action-btn success-btn" style="display:none;" onclick="goToNextWord()">다음 단어로 이동 ➔</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div id="quiz-arena" style="display: none;">
+                <div class="arena-top-bar">
+                    <div id="currentQuizBadge" class="arena-location-badge">📌 1주차 · 월요일 마무리 퀴즈</div>
+                    <button type="button" class="btn-small" style="background:#64748B;" onclick="returnToStudyHome()">✕ 나가기</button>
+                </div>
+
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                     <div id="quizHeader" style="font-weight: 700; color: var(--accent); font-size: 1.1rem;">📝 오늘의 마무리 퀴즈 (1/5)</div>
-                    <button class="btn-small" style="background:#94A3B8;" onclick="returnToStudyHome()">✕ 나가기</button>
                 </div>
                 <div class="progress-bar-container">
                     <div id="quizProgressBar" class="progress-bar"></div>
@@ -214,8 +225,8 @@
                     <div id="quizShadowingArea" style="display:none; margin-top:20px; padding-top:16px; border-top:1px dashed #CBD5E1; text-align:center;">
                         <p id="quizFullSentence" style="font-size:1.15rem; font-weight:700; color:var(--primary); margin-bottom:12px;"></p>
                         <div class="btn-row">
-                            <button id="quizSpeakBtn" class="action-btn" onclick="playQuizSentenceAndRecord()">🔊 전체 문장 듣고 따라 읽기</button>
-                            <button id="quizFinishSpeakBtn" class="action-btn stop-btn" style="display:none;" onclick="finishQuizShadowing()">다 읽었어요 ⏹</button>
+                            <button type="button" id="quizSpeakBtn" class="action-btn" onclick="playQuizSentenceAndRecord()">🔊 전체 문장 듣고 따라 읽기</button>
+                            <button type="button" id="quizFinishSpeakBtn" class="action-btn stop-btn" style="display:none;" onclick="finishQuizShadowing()">다 읽었어요 ⏹</button>
                         </div>
                         <div id="quizLiveTranscript" style="margin-top:10px; font-weight:600; color:var(--primary);"></div>
                     </div>
@@ -223,10 +234,14 @@
             </div>
 
             <div id="story-arena" style="display: none; text-align: center;">
+                <div class="arena-top-bar">
+                    <div id="currentStoryBadge" class="arena-location-badge">📌 1주차 · 월요일 모험 스토리</div>
+                    <button type="button" class="btn-small" style="background:#64748B;" onclick="returnToStudyHome()">✕ 홈으로</button>
+                </div>
                 <h2 style="color: var(--primary); margin-bottom: 10px;">🎉 오늘의 게임 모험 스토리 완성!</h2>
                 <p style="color: var(--text-sub); margin-bottom: 20px;">복습에 나온 예문들이 연결된 이야기입니다. 한 문단씩 원어민 음성을 들어보세요!</p>
                 <div id="storyContentContainer" class="story-container"></div>
-                <button class="action-btn" style="margin-top: 20px;" onclick="returnToStudyHome()">🏠 홈으로 돌아가기</button>
+                <button type="button" class="action-btn" style="margin-top: 20px;" onclick="returnToStudyHome()">🏠 홈으로 돌아가기</button>
             </div>
         </div>
 
@@ -234,18 +249,22 @@
             <div class="settings-header">
                 <h2>⚙️ 주차별 커리큘럼 및 단어 관리</h2>
                 <div style="display: flex; gap: 10px;">
-                    <button class="btn-small" onclick="addNewWeek()">+ 새 주차 추가</button>
-                    <button class="btn-small" style="background:var(--success);" onclick="saveSettings()">💾 설정 저장하기</button>
+                    <button type="button" class="btn-small" onclick="addNewWeek()">+ 새 주차 추가</button>
+                    <button type="button" class="btn-small" style="background:var(--success);" onclick="saveSettings()">💾 설정 저장하기</button>
                 </div>
             </div>
 
             <div class="upload-box">
-                <h3 style="margin-bottom: 8px; font-size: 1.1rem;">📁 요일별 단어 .txt 파일 일괄 업로드</h3>
-                <p style="font-size: 0.9rem; color: var(--text-sub); margin-bottom: 12px;">현재 선택된 주차(<span id="uploadTargetWeekName" style="font-weight:700; color:var(--primary);">1주차</span>)에 파일 내용이 즉시 반영됩니다. [월요일]~[금요일] 구분과 <b>단어 | 뜻 | 예문 | 예문뜻</b> 형식을 지켜주세요.</p>
+                <h3 style="margin-bottom: 8px; font-size: 1.1rem;">📁 주차·요일별 단어 .txt 파일 일괄 업로드</h3>
+                <p style="font-size: 0.9rem; color: var(--text-sub); margin-bottom: 12px;">
+                    현재 선택된 <span id="uploadTargetWeekName" style="font-weight:700; color:var(--primary);">1주차</span>에 즉시 반영됩니다. (파일 안에 <b>[2주차]</b>처럼 주차 표기가 있으면 해당 주차로 자동 분류됩니다.)<br>
+                    형식: <b>[월요일]</b> 아래 줄에 <b>단어 | 뜻 | 예문 | 예문뜻</b>
+                </p>
                 <div style="display:flex; justify-content:center; gap:12px; align-items:center; flex-wrap:wrap;">
                     <input type="file" id="txtFileInput" accept=".txt" onchange="handleTxtFileUpload(event)">
-                    <button class="btn-small" style="background:#475569;" onclick="downloadSampleTxt()">📄 샘플 .txt 양식 받기</button>
+                    <button type="button" class="btn-small" style="background:#475569;" onclick="downloadSampleTxt()">📄 샘플 .txt 양식 받기</button>
                 </div>
+                <div id="uploadStatusMsg" class="upload-status"></div>
             </div>
 
             <div id="weekTabsContainer" class="week-tabs"></div>
@@ -268,11 +287,13 @@
                 <div class="theme-card" onclick="selectThemeAndStart('minecraft')">⛏️ 마인크래프트</div>
                 <div class="theme-card" onclick="selectThemeAndStart('random')">🎲 모든 게임 랜덤 믹스</div>
             </div>
-            <button class="btn-small btn-danger" style="margin-top: 20px;" onclick="closeThemeModal()">취소</button>
+            <button type="button" class="btn-small btn-danger" style="margin-top: 20px;" onclick="closeThemeModal()">취소</button>
         </div>
     </div>
 
     <script>
+        const STORAGE_KEY = 'grade4_vocab_data_v8';
+
         const DEFAULT_DATA = {
             "1주차": {
                 name: "1주차 커리큘럼",
@@ -302,8 +323,23 @@
             }
         };
 
-        let curriculumData = JSON.parse(localStorage.getItem('grade4_vocab_data_v7')) || JSON.parse(JSON.stringify(DEFAULT_DATA));
-        let currentActiveWeek = "1주차";
+        function loadInitialData() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) {
+                        return parsed;
+                    }
+                }
+            } catch (e) {
+                console.error("Data load fallback:", e);
+            }
+            return JSON.parse(JSON.stringify(DEFAULT_DATA));
+        }
+
+        let curriculumData = loadInitialData();
+        let currentActiveWeek = Object.keys(curriculumData)[0] || "1주차";
         let currentSelectedStudyDay = "월요일";
         let currentEditingDay = "월요일";
         let currentMode = "study";
@@ -319,36 +355,27 @@
         let silenceTimer = null;
         let lastSpokenTranscript = "";
 
-        window.onload = function() {
-            const dayMap = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
-            let todayName = dayMap[new Date().getDay()];
-            if(["월요일", "화요일", "수요일", "목요일", "금요일"].includes(todayName)) {
-                currentSelectedStudyDay = todayName;
-            }
-            initSpeechRecognition();
-            updateHeaderWeekSelect();
-            renderHomeDaySelector();
-            renderSettingsWeekTabs();
-        };
-
         function switchTab(tabId) {
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('navStudyBtn').classList.remove('active');
+            document.getElementById('navSettingsBtn').classList.remove('active');
+            document.getElementById('tab-study').classList.remove('active');
+            document.getElementById('tab-settings').classList.remove('active');
             
-            if(tabId === 'study') {
-                document.querySelector('nav button:nth-child(1)').classList.add('active');
+            if (tabId === 'study') {
+                document.getElementById('navStudyBtn').classList.add('active');
                 document.getElementById('tab-study').classList.add('active');
                 returnToStudyHome();
             } else {
-                document.querySelector('nav button:nth-child(2)').classList.add('active');
+                document.getElementById('navSettingsBtn').classList.add('active');
                 document.getElementById('tab-settings').classList.add('active');
+                renderSettingsWeekTabs();
             }
         }
 
         function fillDefaultData() {
-            if(confirm("모든 주차 데이터를 기본 추천 커리큘럼으로 초기화할까요?")) {
+            if (confirm("모든 주차 데이터를 기본 추천 커리큘럼으로 초기화할까요?")) {
                 curriculumData = JSON.parse(JSON.stringify(DEFAULT_DATA));
-                localStorage.setItem('grade4_vocab_data_v7', JSON.stringify(curriculumData));
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(curriculumData));
                 currentActiveWeek = "1주차";
                 updateHeaderWeekSelect();
                 renderHomeDaySelector();
@@ -360,19 +387,44 @@
         function updateHeaderWeekSelect() {
             const sel = document.getElementById('headerWeekSelect');
             sel.innerHTML = '';
-            for(let week in curriculumData) {
+            for (let week in curriculumData) {
                 let opt = document.createElement('option');
                 opt.value = week;
-                opt.textContent = curriculumData[week].name;
-                if(week === currentActiveWeek) opt.selected = true;
+                opt.textContent = curriculumData[week].name || week;
+                if (week === currentActiveWeek) opt.selected = true;
                 sel.appendChild(opt);
             }
             document.getElementById('uploadTargetWeekName').textContent = currentActiveWeek;
+            updateLocationBadges();
+        }
+
+        function updateLocationBadges() {
+            const homeBadge = document.getElementById('homeLocationBadge');
+            if (homeBadge) {
+                homeBadge.textContent = `📅 현재 선택: ${currentActiveWeek} · ${currentSelectedStudyDay}`;
+            }
+            const studyBadge = document.getElementById('currentStudyBadge');
+            if (studyBadge) {
+                studyBadge.textContent = `📌 ${currentActiveWeek} · ${currentSelectedStudyDay} 학습 중`;
+            }
+            const quizBadge = document.getElementById('currentQuizBadge');
+            if (quizBadge) {
+                quizBadge.textContent = currentMode === 'review'
+                    ? `📌 ${currentActiveWeek} · 주간 전체 복습 퀴즈`
+                    : `📌 ${currentActiveWeek} · ${currentSelectedStudyDay} 마무리 퀴즈`;
+            }
+            const storyBadge = document.getElementById('currentStoryBadge');
+            if (storyBadge) {
+                storyBadge.textContent = currentMode === 'review'
+                    ? `📌 ${currentActiveWeek} · 주간 복습 모험 스토리`
+                    : `📌 ${currentActiveWeek} · ${currentSelectedStudyDay} 모험 스토리`;
+            }
         }
 
         function changeHeaderWeek(val) {
             currentActiveWeek = val;
             document.getElementById('uploadTargetWeekName').textContent = currentActiveWeek;
+            updateLocationBadges();
             renderHomeDaySelector();
             renderSettingsWeekTabs();
         }
@@ -383,28 +435,34 @@
             const days = ["월요일", "화요일", "수요일", "목요일", "금요일"];
             days.forEach(day => {
                 let btn = document.createElement('button');
+                btn.type = "button";
                 btn.className = `day-pill ${day === currentSelectedStudyDay ? 'active' : ''}`;
-                let count = (curriculumData[currentActiveWeek]?.days[day] || []).length;
+                let count = (curriculumData[currentActiveWeek]?.days?.[day] || []).length;
                 btn.textContent = `${day} (${count}단어)`;
                 btn.onclick = () => {
                     currentSelectedStudyDay = day;
+                    updateLocationBadges();
                     renderHomeDaySelector();
                 };
                 row.appendChild(btn);
             });
+            updateLocationBadges();
         }
 
         function renderSettingsWeekTabs() {
             const container = document.getElementById('weekTabsContainer');
             container.innerHTML = '';
-            for(let week in curriculumData) {
+            for (let week in curriculumData) {
                 let btn = document.createElement('button');
+                btn.type = "button";
                 btn.className = `week-tab-btn ${week === currentActiveWeek ? 'active' : ''}`;
-                btn.textContent = curriculumData[week].name;
+                btn.textContent = curriculumData[week].name || week;
                 btn.onclick = () => {
                     currentActiveWeek = week;
                     document.getElementById('headerWeekSelect').value = week;
                     document.getElementById('uploadTargetWeekName').textContent = currentActiveWeek;
+                    updateLocationBadges();
+                    renderHomeDaySelector();
                     renderSettingsWeekTabs();
                 };
                 container.appendChild(btn);
@@ -416,12 +474,18 @@
         function addNewWeek() {
             let weeksCount = Object.keys(curriculumData).length + 1;
             let newWeekKey = `${weeksCount}주차`;
+            while (curriculumData[newWeekKey]) {
+                weeksCount++;
+                newWeekKey = `${weeksCount}주차`;
+            }
             curriculumData[newWeekKey] = {
                 name: `${newWeekKey} 커리큘럼`,
                 days: { "월요일": [], "화요일": [], "수요일": [], "목요일": [], "금요일": [] }
             };
             currentActiveWeek = newWeekKey;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(curriculumData));
             updateHeaderWeekSelect();
+            renderHomeDaySelector();
             renderSettingsWeekTabs();
         }
 
@@ -431,6 +495,7 @@
             const days = ["월요일", "화요일", "수요일", "목요일", "금요일"];
             days.forEach(day => {
                 let btn = document.createElement('button');
+                btn.type = "button";
                 btn.className = `day-subtab ${day === currentEditingDay ? 'active' : ''}`;
                 btn.textContent = day;
                 btn.onclick = () => {
@@ -444,12 +509,12 @@
 
         function renderDayEditor() {
             const container = document.getElementById('dayEditorContainer');
-            let words = curriculumData[currentActiveWeek]?.days[currentEditingDay] || [];
+            let words = curriculumData[currentActiveWeek]?.days?.[currentEditingDay] || [];
             
             let html = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <span style="font-weight:700; color:var(--text-sub);">${currentEditingDay} 단어 목록 (${words.length}개)</span>
-                    <button class="btn-small" onclick="addWordRow()">+ 단어 추가</button>
+                    <span style="font-weight:700; color:var(--text-sub);">${currentActiveWeek} ${currentEditingDay} 단어 목록 (${words.length}개)</span>
+                    <button type="button" class="btn-small" onclick="addWordRow()">+ 단어 추가</button>
                 </div>
                 <table>
                     <thead>
@@ -467,11 +532,11 @@
             words.forEach((item, index) => {
                 html += `
                     <tr>
-                        <td><input type="text" id="w_${index}" value="${item.word || ''}"></td>
-                        <td><input type="text" id="m_${index}" value="${item.meaning || ''}"></td>
-                        <td><input type="text" id="e_${index}" value="${item.example || ''}"></td>
-                        <td><input type="text" id="ek_${index}" value="${item.exampleKo || ''}"></td>
-                        <td><button class="btn-small btn-danger" onclick="removeWordRow(${index})">삭제</button></td>
+                        <td><input type="text" id="w_${index}" value="${escapeHtml(item.word || '')}"></td>
+                        <td><input type="text" id="m_${index}" value="${escapeHtml(item.meaning || '')}"></td>
+                        <td><input type="text" id="e_${index}" value="${escapeHtml(item.example || '')}"></td>
+                        <td><input type="text" id="ek_${index}" value="${escapeHtml(item.exampleKo || '')}"></td>
+                        <td><button type="button" class="btn-small btn-danger" onclick="removeWordRow(${index})">삭제</button></td>
                     </tr>
                 `;
             });
@@ -480,8 +545,16 @@
             container.innerHTML = html;
         }
 
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/"/g, "&quot;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        }
+
         function addWordRow() {
-            if(!curriculumData[currentActiveWeek].days[currentEditingDay]) {
+            if (!curriculumData[currentActiveWeek].days[currentEditingDay]) {
                 curriculumData[currentActiveWeek].days[currentEditingDay] = [];
             }
             curriculumData[currentActiveWeek].days[currentEditingDay].push({ word: "", meaning: "", example: "", exampleKo: "", themes: {} });
@@ -494,117 +567,166 @@
         }
 
         function saveSettings() {
-            let words = curriculumData[currentActiveWeek].days[currentEditingDay];
-            for(let i=0; i<words.length; i++) {
+            let words = curriculumData[currentActiveWeek]?.days?.[currentEditingDay];
+            if (!words) return;
+            for (let i = 0; i < words.length; i++) {
                 words[i].word = document.getElementById(`w_${i}`).value.trim();
                 words[i].meaning = document.getElementById(`m_${i}`).value.trim();
                 words[i].example = document.getElementById(`e_${i}`).value.trim();
                 words[i].exampleKo = document.getElementById(`ek_${i}`).value.trim();
             }
-            localStorage.setItem('grade4_vocab_data_v7', JSON.stringify(curriculumData));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(curriculumData));
             renderHomeDaySelector();
             alert("설정이 안전하게 저장되었습니다!");
         }
 
         function downloadSampleTxt() {
-            const sample = "[월요일]\nsurvive | 생존하다 | You need weapons to survive. | 너는 살아남기 위해 무기가 필요해.\ncraft | 제작하다 | Let's craft a sword. | 검을 제작하자.\n\n[화요일]\nexplore | 탐험하다 | Explore the vast world. | 넓은 세상을 탐험하다.\n";
+            const sample = "[2주차]\n[월요일]\nadventure | 모험 | Start an adventure. | 모험을 시작하다.\nbrave | 용감한 | Be a brave hero. | 용감한 영웅이 되다.\n\n[화요일]\nexplore | 탐험하다 | Explore the vast world. | 넓은 세상을 탐험하다.\n";
             const blob = new Blob([sample], { type: 'text/plain;charset=utf-8' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = "주간_영어단어_양식.txt";
+            a.download = "2주차_영어단어_양식.txt";
             a.click();
         }
 
         function handleTxtFileUpload(event) {
             const file = event.target.files[0];
-            if(!file) return;
+            if (!file) return;
             const reader = new FileReader();
             reader.onload = function(e) {
                 parseTxtContent(e.target.result);
+                event.target.value = '';
             };
             reader.readAsText(file, "UTF-8");
         }
 
         function parseTxtContent(text) {
             let lines = text.split(/\r?\n/);
-            let daysMap = { "월요일": [], "화요일": [], "수요일": [], "목요일": [], "금요일": [] };
+            let targetWeek = currentActiveWeek;
+            let weekDaysMap = {};
             let currentDay = "월요일";
+            let totalAdded = 0;
+
+            function ensureWeek(wk) {
+                if (!weekDaysMap[wk]) {
+                    weekDaysMap[wk] = { "월요일": [], "화요일": [], "수요일": [], "목요일": [], "금요일": [] };
+                }
+            }
+            ensureWeek(targetWeek);
 
             lines.forEach(line => {
                 let trimmed = line.trim();
-                if(!trimmed) return;
-                if(trimmed.includes("월요일")) currentDay = "월요일";
-                else if(trimmed.includes("화요일")) currentDay = "화요일";
-                else if(trimmed.includes("수요일")) currentDay = "수요일";
-                else if(trimmed.includes("목요일")) currentDay = "목요일";
-                else if(trimmed.includes("금요일")) currentDay = "금요일";
-                else if(trimmed.includes("|") && !trimmed.startsWith("단어")) {
+                if (!trimmed) return;
+
+                let weekMatch = trimmed.match(/^\[?\s*(\d+주차)\s*\]?$/);
+                if (weekMatch) {
+                    targetWeek = weekMatch[1];
+                    ensureWeek(targetWeek);
+                    currentDay = "월요일";
+                    return;
+                }
+
+                if (trimmed.includes("월요일")) { currentDay = "월요일"; return; }
+                if (trimmed.includes("화요일")) { currentDay = "화요일"; return; }
+                if (trimmed.includes("수요일")) { currentDay = "수요일"; return; }
+                if (trimmed.includes("목요일")) { currentDay = "목요일"; return; }
+                if (trimmed.includes("금요일")) { currentDay = "금요일"; return; }
+
+                if (trimmed.includes("|") && !trimmed.startsWith("단어")) {
                     let parts = trimmed.split("|").map(p => p.trim());
-                    if(parts.length >= 4) {
-                        daysMap[currentDay].push({
+                    if (parts.length >= 2 && parts[0]) {
+                        weekDaysMap[targetWeek][currentDay].push({
                             word: parts[0],
-                            meaning: parts[1],
-                            example: parts[2],
-                            exampleKo: parts[3],
+                            meaning: parts[1] || "",
+                            example: parts[2] || parts[0],
+                            exampleKo: parts[3] || parts[1] || "",
                             themes: {}
                         });
+                        totalAdded++;
                     }
                 }
             });
 
-            if(!curriculumData[currentActiveWeek]) {
-                curriculumData[currentActiveWeek] = { name: `${currentActiveWeek} 커리큘럼`, days: {} };
+            if (totalAdded === 0) {
+                alert("인식된 단어 데이터가 없습니다. '단어 | 뜻 | 예문 | 예문뜻' 형식을 확인해주세요.");
+                return;
             }
-            curriculumData[currentActiveWeek].days = daysMap;
-            localStorage.setItem('grade4_vocab_data_v7', JSON.stringify(curriculumData));
-            
+
+            let updatedWeeks = [];
+            for (let wk in weekDaysMap) {
+                let wkCount = Object.values(weekDaysMap[wk]).reduce((acc, arr) => acc + arr.length, 0);
+                if (wkCount > 0) {
+                    if (!curriculumData[wk]) {
+                        curriculumData[wk] = { name: `${wk} 커리큘럼`, days: {} };
+                    }
+                    curriculumData[wk].days = weekDaysMap[wk];
+                    updatedWeeks.push(wk);
+                }
+            }
+
+            if (updatedWeeks.length > 0) {
+                currentActiveWeek = updatedWeeks[updatedWeeks.length - 1];
+            }
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(curriculumData));
+            updateHeaderWeekSelect();
             renderHomeDaySelector();
-            renderDayEditor();
-            alert(`🎉 ${currentActiveWeek}에 업로드한 단어가 성공적으로 즉시 반영되었습니다!`);
+            renderSettingsWeekTabs();
+
+            const statusBox = document.getElementById('uploadStatusMsg');
+            if (statusBox) {
+                statusBox.style.display = 'block';
+                statusBox.textContent = `✅ [${updatedWeeks.join(', ')}] 총 ${totalAdded}개 단어가 즉시 반영되었습니다!`;
+            }
+            alert(`🎉 [${updatedWeeks.join(', ')}]에 총 ${totalAdded}개 단어가 즉시 반영되었습니다!`);
         }
 
         function initSpeechRecognition() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if(!SpeechRecognition) return;
-            speechRecognition = new SpeechRecognition();
-            speechRecognition.lang = 'en-US';
-            speechRecognition.continuous = true;
-            speechRecognition.interimResults = true;
+            try {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) return;
+                speechRecognition = new SpeechRecognition();
+                speechRecognition.lang = 'en-US';
+                speechRecognition.continuous = true;
+                speechRecognition.interimResults = true;
 
-            speechRecognition.onresult = function(event) {
-                let interimTranscript = '';
-                let finalTranscript = '';
-                for (let i = event.resultIndex; i < event.results.length; ++i) {
-                    if (event.results[i].isFinal) {
-                        finalTranscript += event.results[i][0].transcript;
-                    } else {
-                        interimTranscript += event.results[i][0].transcript;
+                speechRecognition.onresult = function(event) {
+                    let interimTranscript = '';
+                    let finalTranscript = '';
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        if (event.results[i].isFinal) {
+                            finalTranscript += event.results[i][0].transcript;
+                        } else {
+                            interimTranscript += event.results[i][0].transcript;
+                        }
                     }
-                }
-                let spoken = (finalTranscript || interimTranscript).trim();
-                lastSpokenTranscript = spoken;
-                if(isQuizRecording) {
-                    document.getElementById('quizLiveTranscript').textContent = `인식된 음성: "${spoken}"`;
-                } else {
-                    document.getElementById('liveTranscript').textContent = `인식된 음성: "${spoken}"`;
-                }
-                resetSilenceTimer();
-            };
+                    let spoken = (finalTranscript || interimTranscript).trim();
+                    lastSpokenTranscript = spoken;
+                    if (isQuizRecording) {
+                        document.getElementById('quizLiveTranscript').textContent = `인식된 음성: "${spoken}"`;
+                    } else {
+                        document.getElementById('liveTranscript').textContent = `인식된 음성: "${spoken}"`;
+                    }
+                    resetSilenceTimer();
+                };
 
-            speechRecognition.onend = function() {
-                if(isRecording) stopRecordingProcess();
-                if(isRetryRecording) stopRetryShadowing();
-                if(isQuizRecording) finishQuizShadowing();
-            };
+                speechRecognition.onend = function() {
+                    if (isRecording) stopRecordingProcess();
+                    if (isRetryRecording) stopRetryShadowing();
+                    if (isQuizRecording) finishQuizShadowing();
+                };
+            } catch (e) {
+                console.warn("SpeechRecognition unavailable:", e);
+            }
         }
 
         function resetSilenceTimer() {
-            if(silenceTimer) clearTimeout(silenceTimer);
+            if (silenceTimer) clearTimeout(silenceTimer);
             let timeoutDuration = (!isQuizRecording && !isRetryRecording && (currentStep === 1 || currentStep === 2)) ? 1400 : 2300;
             silenceTimer = setTimeout(() => {
-                if(isRecording) stopRecordingProcess();
-                if(isRetryRecording) stopRetryShadowing();
-                if(isQuizRecording) finishQuizShadowing();
+                if (isRecording) stopRecordingProcess();
+                if (isRetryRecording) stopRetryShadowing();
+                if (isQuizRecording) finishQuizShadowing();
             }, timeoutDuration);
         }
 
@@ -614,30 +736,28 @@
             currentStep = 1;
             document.getElementById('study-home').style.display = 'none';
             document.getElementById('study-arena').style.display = 'block';
-            
-            // 학습 뱃지 정상 업데이트
-            document.getElementById('currentStudyBadge').textContent = `📌 ${currentActiveWeek} / ${currentSelectedStudyDay} 학습 중`;
-
+            updateLocationBadges();
             renderStudyStep();
         }
 
         function returnToStudyHome() {
-            window.speechSynthesis?.cancel();
+            if (window.speechSynthesis) window.speechSynthesis.cancel();
             isRecording = false;
             isRetryRecording = false;
             isQuizRecording = false;
-            if(silenceTimer) clearTimeout(silenceTimer);
-            if(speechRecognition) { try { speechRecognition.stop(); } catch(e) {} }
+            if (silenceTimer) clearTimeout(silenceTimer);
+            if (speechRecognition) { try { speechRecognition.stop(); } catch (e) {} }
             document.getElementById('study-home').style.display = 'block';
             document.getElementById('study-arena').style.display = 'none';
             document.getElementById('quiz-arena').style.display = 'none';
             document.getElementById('story-arena').style.display = 'none';
+            updateLocationBadges();
         }
 
         function getTodayWords() {
-            let list = curriculumData[currentActiveWeek]?.days[currentSelectedStudyDay] || [];
-            if(list.length === 0) {
-                list = curriculumData[currentActiveWeek]?.days["월요일"] || [];
+            let list = curriculumData[currentActiveWeek]?.days?.[currentSelectedStudyDay] || [];
+            if (list.length === 0) {
+                list = curriculumData[currentActiveWeek]?.days?.["월요일"] || [];
             }
             return list;
         }
@@ -646,7 +766,7 @@
             let all = [];
             const days = ["월요일", "화요일", "수요일", "목요일", "금요일"];
             days.forEach(d => {
-                let arr = curriculumData[currentActiveWeek]?.days[d] || [];
+                let arr = curriculumData[currentActiveWeek]?.days?.[d] || [];
                 all = all.concat(arr);
             });
             return all;
@@ -654,13 +774,13 @@
 
         function renderStudyStep() {
             let words = getTodayWords();
-            if(words.length === 0) {
-                alert("현재 주차/요일에 등록된 단어가 없습니다. 부모님 설정에서 단어를 확인해주세요!");
+            if (words.length === 0) {
+                alert(`${currentActiveWeek} ${currentSelectedStudyDay}에 등록된 단어가 없습니다. 부모님 설정에서 단어를 확인해주세요!`);
                 returnToStudyHome();
                 return;
             }
 
-            if(currentWordIndex >= words.length) {
+            if (currentWordIndex >= words.length) {
                 openThemeModalForDailyQuiz();
                 return;
             }
@@ -681,17 +801,17 @@
             document.getElementById('coachingPanel').style.display = 'none';
             document.getElementById('normalStudyControls').style.display = 'flex';
 
-            if(currentStep === 1 || currentStep === 2) {
+            if (currentStep === 1 || currentStep === 2) {
                 exContainer.style.display = 'none';
                 headerText.textContent = `STEP 1. 단어 듣고 따라 읽기 (${currentStep}/2회) — [${currentWordIndex + 1}/${words.length}번째 단어]`;
                 actionBtn.textContent = "🔊 원어민 발음 듣기";
-            } else if(currentStep === 3 || currentStep === 4) {
+            } else if (currentStep === 3 || currentStep === 4) {
                 exContainer.style.display = 'block';
-                document.getElementById('cardExampleEn').textContent = wordObj.example;
-                document.getElementById('cardExampleKo').textContent = wordObj.exampleKo;
+                document.getElementById('cardExampleEn').textContent = wordObj.example || wordObj.word;
+                document.getElementById('cardExampleKo').textContent = wordObj.exampleKo || wordObj.meaning;
                 headerText.textContent = `STEP 2. 예문 듣고 따라 읽기 (${currentStep - 2}/2회)`;
                 actionBtn.textContent = "🔊 예문 음성 듣기";
-            } else if(currentStep === 5) {
+            } else if (currentStep === 5) {
                 exContainer.style.display = 'block';
                 headerText.textContent = `STEP 3. 내 발음 확인 & AI 단어별 분석 코칭`;
                 document.getElementById('normalStudyControls').style.display = 'none';
@@ -703,20 +823,20 @@
             let words = getTodayWords();
             let wordObj = words[currentWordIndex];
 
-            if(currentStep === 1 || currentStep === 2) {
+            if (currentStep === 1 || currentStep === 2) {
                 playTTS(wordObj.word, 0.78, () => {
                     startVoiceRecording();
                 });
-            } else if(currentStep === 3 || currentStep === 4) {
-                playTTS(wordObj.example, 0.72, () => {
+            } else if (currentStep === 3 || currentStep === 4) {
+                playTTS(wordObj.example || wordObj.word, 0.72, () => {
                     startVoiceRecording();
                 });
             }
         }
 
         function playTTS(text, rate, callback) {
-            if(!window.speechSynthesis) {
-                if(callback) callback();
+            if (!window.speechSynthesis) {
+                if (callback) callback();
                 return;
             }
             window.speechSynthesis.cancel();
@@ -725,7 +845,7 @@
             utterance.rate = rate || 0.75;
             utterance.pitch = 1.05;
             utterance.onend = function() {
-                if(callback) callback();
+                if (callback) callback();
             };
             window.speechSynthesis.speak(utterance);
         }
@@ -740,24 +860,24 @@
 
             if (speechRecognition) {
                 document.getElementById('liveTranscript').textContent = "마이크에 대고 천천히 또렷하게 읽어주세요...";
-                try { speechRecognition.start(); } catch(e) {}
+                try { speechRecognition.start(); } catch (e) {}
             } else {
                 document.getElementById('liveTranscript').textContent = "큰 소리로 따라 읽은 후 [다 읽었어요 ⏹] 버튼을 눌러주세요!";
             }
 
-            if(silenceTimer) clearTimeout(silenceTimer);
+            if (silenceTimer) clearTimeout(silenceTimer);
             silenceTimer = setTimeout(() => {
-                if(isRecording) stopRecordingProcess();
+                if (isRecording) stopRecordingProcess();
             }, 6500);
         }
 
         function stopRecordingProcess() {
-            if(!isRecording) return;
+            if (!isRecording) return;
             isRecording = false;
-            if(silenceTimer) clearTimeout(silenceTimer);
+            if (silenceTimer) clearTimeout(silenceTimer);
 
-            if(speechRecognition) {
-                try { speechRecognition.stop(); } catch(e) {}
+            if (speechRecognition) {
+                try { speechRecognition.stop(); } catch (e) {}
             }
 
             let btn = document.getElementById('mainActionBtn');
@@ -773,9 +893,9 @@
         function showCoachingPanel(wordObj) {
             const panel = document.getElementById('coachingPanel');
             panel.style.display = 'block';
-            document.getElementById('coachingMessage').innerHTML = `발음 정확도 <b>88%</b>! 핵심 단어 <b>'${wordObj.word}'</b>의 첫음절 강세와 끝소리를 조금 더 또렷하게 발음하면 원어민처럼 들려요.`;
+            document.getElementById('coachingMessage').innerHTML = `발음 정확도 <b>88%</b>! 핵심 단어 <b>'${escapeHtml(wordObj.word)}'</b>의 첫음절 강세와 끝소리를 조금 더 또렷하게 발음하면 원어민처럼 들려요.`;
             
-            renderWordBreakdownChips(wordObj.example, lastSpokenTranscript);
+            renderWordBreakdownChips(wordObj.example || wordObj.word, lastSpokenTranscript);
 
             document.getElementById('retryResultBadge').textContent = '';
             document.getElementById('nextWordBtn').style.display = 'none';
@@ -796,7 +916,7 @@
                 let isWarning = spokenText ? !isMatched : (idx === 1 || lowerW === 'explore');
                 chip.className = `word-chip ${isWarning ? 'warning' : 'good'}`;
                 chip.innerHTML = `
-                    <span>${w}</span>
+                    <span>${escapeHtml(w)}</span>
                     <span class="word-chip-sub">${isWarning ? '⚠️ 연음/강세 주의' : '✨ 완벽해요'}</span>
                 `;
                 grid.appendChild(chip);
@@ -805,7 +925,7 @@
 
         function playReferenceExample() {
             let words = getTodayWords();
-            playTTS(words[currentWordIndex].example, 0.72);
+            playTTS(words[currentWordIndex].example || words[currentWordIndex].word, 0.72);
         }
 
         function startRetryShadowing() {
@@ -814,28 +934,28 @@
             let btn = document.getElementById('retryListenFollowBtn');
             btn.textContent = "🔊 AI 튜터가 읽는 중...";
 
-            playTTS(wordObj.example, 0.72, () => {
+            playTTS(wordObj.example || wordObj.word, 0.72, () => {
                 btn.classList.add('recording');
                 btn.textContent = "🎙️ 따라 읽은 뒤 '다 읽었어요' 클릭!";
                 document.getElementById('retryStopBtn').style.display = 'inline-flex';
                 isRetryRecording = true;
 
-                if(speechRecognition) {
-                    try { speechRecognition.start(); } catch(e) {}
+                if (speechRecognition) {
+                    try { speechRecognition.start(); } catch (e) {}
                 }
-                if(silenceTimer) clearTimeout(silenceTimer);
+                if (silenceTimer) clearTimeout(silenceTimer);
                 silenceTimer = setTimeout(() => {
-                    if(isRetryRecording) stopRetryShadowing();
+                    if (isRetryRecording) stopRetryShadowing();
                 }, 6500);
             });
         }
 
         function stopRetryShadowing() {
-            if(!isRetryRecording) return;
+            if (!isRetryRecording) return;
             isRetryRecording = false;
-            if(silenceTimer) clearTimeout(silenceTimer);
-            if(speechRecognition) {
-                try { speechRecognition.stop(); } catch(e) {}
+            if (silenceTimer) clearTimeout(silenceTimer);
+            if (speechRecognition) {
+                try { speechRecognition.stop(); } catch (e) {}
             }
 
             let btn = document.getElementById('retryListenFollowBtn');
@@ -860,18 +980,26 @@
         }
 
         function openThemeModalForDailyQuiz() {
+            if (getTodayWords().length === 0) {
+                alert(`${currentActiveWeek} ${currentSelectedStudyDay}에 등록된 단어가 없습니다.`);
+                return;
+            }
             currentMode = "quiz";
             document.getElementById('themeModal').style.display = 'flex';
         }
 
         function openThemeModalForReview() {
+            if (getAllWeekWords().length === 0) {
+                alert(`${currentActiveWeek}에 등록된 단어가 없습니다.`);
+                return;
+            }
             currentMode = "review";
             document.getElementById('themeModal').style.display = 'flex';
         }
 
         function closeThemeModal() {
             document.getElementById('themeModal').style.display = 'none';
-            if(currentMode === 'study') returnToStudyHome();
+            if (currentMode === 'study') returnToStudyHome();
         }
 
         function selectThemeAndStart(theme) {
@@ -881,6 +1009,7 @@
             document.getElementById('study-arena').style.display = 'none';
             
             prepareQuizQuestions();
+            updateLocationBadges();
             document.getElementById('quiz-arena').style.display = 'block';
             currentQuizIndex = 0;
             renderQuizQuestion();
@@ -889,21 +1018,23 @@
         function getGameSentenceForWord(w, chosenTheme) {
             const themeKeys = ['roblox', 'zombie', 'minecraft'];
             let tKey = chosenTheme === 'random' ? themeKeys[Math.floor(Math.random() * themeKeys.length)] : chosenTheme;
-            if(w.themes && w.themes[tKey]) {
+            if (w.themes && w.themes[tKey]) {
                 return { en: w.themes[tKey].en, ko: w.themes[tKey].ko, themeKey: tKey };
             }
-            if(tKey === 'roblox') {
-                return { en: `In Rivals arena, ${w.example.charAt(0).toLowerCase() + w.example.slice(1)}`, ko: `[로블록스 라이벌] ${w.exampleKo}`, themeKey: tKey };
-            } else if(tKey === 'zombie') {
-                return { en: `Before zombies attack, ${w.example.charAt(0).toLowerCase() + w.example.slice(1)}`, ko: `[좀비 아레나] ${w.exampleKo}`, themeKey: tKey };
+            let baseEx = w.example || `I know the word ${w.word}.`;
+            let baseKo = w.exampleKo || w.meaning;
+            if (tKey === 'roblox') {
+                return { en: `In Rivals arena, ${baseEx.charAt(0).toLowerCase() + baseEx.slice(1)}`, ko: `[로블록스 라이벌] ${baseKo}`, themeKey: tKey };
+            } else if (tKey === 'zombie') {
+                return { en: `Before zombies attack, ${baseEx.charAt(0).toLowerCase() + baseEx.slice(1)}`, ko: `[좀비 아레나] ${baseKo}`, themeKey: tKey };
             } else {
-                return { en: `In Minecraft world, ${w.example.charAt(0).toLowerCase() + w.example.slice(1)}`, ko: `[마인크래프트] ${w.exampleKo}`, themeKey: tKey };
+                return { en: `In Minecraft world, ${baseEx.charAt(0).toLowerCase() + baseEx.slice(1)}`, ko: `[마인크래프트] ${baseKo}`, themeKey: tKey };
             }
         }
 
         function prepareQuizQuestions() {
             let words = (currentMode === 'review') ? getAllWeekWords() : getTodayWords();
-            if(words.length > 10 && currentMode === 'review') {
+            if (words.length > 10 && currentMode === 'review') {
                 words = [...words].sort(() => Math.random() - 0.5).slice(0, 10);
             }
             let shuffledWords = [...words].sort(() => Math.random() - 0.5);
@@ -927,16 +1058,16 @@
             let list = [correct];
             let pool = words.length >= 4 ? words : getAllWeekWords();
             let safety = 0;
-            while(list.length < 4 && list.length < pool.length && safety < 50) {
+            while (list.length < 4 && list.length < pool.length && safety < 50) {
                 safety++;
                 let rand = pool[Math.floor(Math.random() * pool.length)].word;
-                if(!list.includes(rand)) list.push(rand);
+                if (!list.includes(rand)) list.push(rand);
             }
             return list.sort(() => Math.random() - 0.5);
         }
 
         function renderQuizQuestion() {
-            if(currentQuizIndex >= quizList.length) {
+            if (currentQuizIndex >= quizList.length) {
                 document.getElementById('quiz-arena').style.display = 'none';
                 document.getElementById('story-arena').style.display = 'block';
                 generateAdventureStory();
@@ -951,7 +1082,8 @@
             let themeLabel = q.themeKey === 'roblox' ? '🔫 로블록스: 라이벌' : q.themeKey === 'zombie' ? '🧟 좀비 아레나에서 살아남기' : '⛏️ 마인크래프트';
             document.getElementById('quizThemeBadge').textContent = themeLabel;
             
-            let regex = new RegExp(q.word, 'gi');
+            let escapedWord = q.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            let regex = new RegExp(escapedWord, 'gi');
             let masked = q.question.replace(regex, '_____');
             document.getElementById('quizQuestionText').textContent = `[해석: ${q.translation}]\n빈칸에 들어갈 알맞은 영어 단어는?\n\n"${masked}"`;
 
@@ -959,3 +1091,81 @@
             document.getElementById('quizLiveTranscript').textContent = '';
 
             let optContainer = document.getElementById('quizOptionsContainer');
+            optContainer.innerHTML = '';
+
+            if (q.type === 'multiple') {
+                q.options.forEach(opt => {
+                    let btn = document.createElement('button');
+                    btn.type = "button";
+                    btn.className = 'big-btn';
+                    btn.style.width = '100%';
+                    btn.style.marginBottom = '10px';
+                    btn.style.background = '#4F46E5';
+                    btn.style.fontSize = '1.1rem';
+                    btn.style.padding = '14px';
+                    btn.textContent = opt;
+                    btn.onclick = () => checkQuizAnswer(opt.toLowerCase() === q.word.toLowerCase());
+                    optContainer.appendChild(btn);
+                });
+            } else {
+                let hint = q.word[0] + ' _ '.repeat(Math.max(0, q.word.length - 1));
+                optContainer.innerHTML = `
+                    <div style="margin-bottom:14px; font-weight:600; color:var(--text-sub);">💡 힌트: 첫 글자는 '${escapeHtml(q.word[0].toUpperCase())}' 이고 총 ${q.word.length}글자예요. (${hint})</div>
+                    <input type="text" id="typingAnswerInput" placeholder="영어 단어를 직접 타이핑하고 엔터를 누르세요" style="padding:14px; font-size:1.15rem; margin-bottom:14px;">
+                    <button type="button" id="submitTypingBtn" class="action-btn">정답 확인 🚀</button>
+                `;
+                document.getElementById('typingAnswerInput').onkeydown = function(event) {
+                    if (event.key === 'Enter') submitTypingAnswer(q.word);
+                };
+                document.getElementById('submitTypingBtn').onclick = function() {
+                    submitTypingAnswer(q.word);
+                };
+            }
+        }
+
+        function checkQuizAnswer(isCorrect) {
+            if (isCorrect) {
+                revealQuizShadowingStep();
+            } else {
+                alert("아쉽네요! 해석과 문맥을 다시 한 번 살펴보고 골라보세요!");
+            }
+        }
+
+        function submitTypingAnswer(correctWord) {
+            let val = document.getElementById('typingAnswerInput').value.trim().toLowerCase();
+            if (val === correctWord.toLowerCase()) {
+                revealQuizShadowingStep();
+            } else {
+                alert(`정답은 '${correctWord}' 입니다! 전체 문장을 듣고 한 번 따라 읽어볼까요?`);
+                revealQuizShadowingStep();
+            }
+        }
+
+        function revealQuizShadowingStep() {
+            let q = quizList[currentQuizIndex];
+            document.getElementById('quizOptionsContainer').innerHTML = `<div style="padding:12px; background:#DCFCE7; color:#166534; border-radius:10px; font-weight:700;">✅ 정답: ${escapeHtml(q.word)} (${escapeHtml(q.meaning)})</div>`;
+            document.getElementById('quizFullSentence').textContent = q.question;
+            document.getElementById('quizShadowingArea').style.display = 'block';
+            playQuizSentenceAndRecord();
+        }
+
+        function playQuizSentenceAndRecord() {
+            let q = quizList[currentQuizIndex];
+            let btn = document.getElementById('quizSpeakBtn');
+            btn.textContent = "🔊 AI 튜터가 읽는 중...";
+            playTTS(q.question, 0.72, () => {
+                btn.classList.add('recording');
+                btn.textContent = "🎙️ 따라 읽은 뒤 '다 읽었어요' 클릭!";
+                document.getElementById('quizFinishSpeakBtn').style.display = 'inline-flex';
+                isQuizRecording = true;
+                if (speechRecognition) {
+                    try { speechRecognition.start(); } catch (e) {}
+                }
+                if (silenceTimer) clearTimeout(silenceTimer);
+                silenceTimer = setTimeout(() => {
+                    if (isQuizRecording) finishQuizShadowing();
+                }, 6500);
+            });
+        }
+
+        function finish
